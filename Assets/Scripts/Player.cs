@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
-        hp = 3;
+        hp = 1000;
     }
 
     private void OnDamage()

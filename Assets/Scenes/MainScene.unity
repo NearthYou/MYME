@@ -1094,11 +1094,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac2bec9250422d4b91929474a032d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStart: 1
+  isStageStart: 1
   monsterPrefab: {fileID: 5789096601561805701, guid: 2edec8817e91cdc4ba36ce9993bd3d78, type: 3}
   monsterSpawnPoint: {fileID: 2111240575}
   monsterSpawnTransform: {fileID: 229254320}
-  spawnDelayTime: 2
 --- !u!1 &2111240575
 GameObject:
   m_ObjectHideFlags: 0

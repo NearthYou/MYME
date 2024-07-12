@@ -1,39 +1,54 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class StageManager : MonoBehaviour
 {
-    [FormerlySerializedAs("isStart")] [SerializeField] private bool isStageStart = false;
+    [SerializeField] private bool isStageStart = false;
     [SerializeField] private GameObject monsterPrefab;
     [SerializeField] private GameObject monsterSpawnPoint;
     [SerializeField] private Transform monsterSpawnTransform;
     
-    [Header("Monster Spawn Setting")]
-    [SerializeField] float spawnDelayTime = 2f;
+    private float[] spawnDelayTime;
+    private int[] monsterCount;
     
     private GameObject[] monsterSpawnPoints;
     private float currentTime = 0f;
-    private float stageCount;
+    private int  stageCount;
+    private int curMonCount;
     
     private void Start()
     {
-        currentTime = spawnDelayTime;
+        //currentTime = spawnDelayTime;
         monsterSpawnPoints = new GameObject[monsterSpawnPoint.transform.childCount];
         for (int i = 0; i < monsterSpawnPoint.transform.childCount; i++)
         {
             monsterSpawnPoints[i] = monsterSpawnPoint.transform.GetChild(i).gameObject;
         }
+
+        stageCount = 0;
+        
+        spawnDelayTime = Managers.Data.MonsterDelay.Select(x=>float.Parse(x)).ToArray();
+        monsterCount = Managers.Data.MonsterAmmount.Select(x=>int.Parse(x)).ToArray();
+        
+        NextStage();
     }
     
-    public void StartStage(float delayTime = 2f)
+    public void NextStage()
     {
-        spawnDelayTime = delayTime;
-        currentTime = spawnDelayTime;
+        currentTime = spawnDelayTime[stageCount];
+        curMonCount = monsterCount[stageCount];
         isStageStart = true;
+    }
+
+    public void StageClear()
+    {
+        stageCount++;
+        isStageStart = false;
     }
 
     private void Update()
@@ -42,10 +57,15 @@ public class StageManager : MonoBehaviour
         {
             currentTime -= Time.deltaTime;
             
-            if (currentTime <= 0)
+            if (currentTime <= 0 && curMonCount > 0)
             {
                 SpawnMonster();
-                currentTime = spawnDelayTime;
+                curMonCount--;
+                currentTime = spawnDelayTime[stageCount];
+            }
+            else if (curMonCount <= 0)
+            {
+                isStageStart = false;
             }
         }
     }
