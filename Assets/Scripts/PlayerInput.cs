@@ -28,7 +28,7 @@ public class PlayerInput : MonoBehaviour
     private float hp = 3f;
     private GameObject attackObject;
     private IBugControl bug;
-    private float coolTime = 1f;
+    private float coolTime = 0.3f;
 
     void Start()
     {
