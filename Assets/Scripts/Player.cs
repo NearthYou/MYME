@@ -40,5 +40,9 @@ public class Player : MonoBehaviour
             other.GetComponent<Monster>().Dead();
             OnDamage();
         }
+        else if (other.CompareTag("Bug"))
+        {
+            playerInput.SetBug(other.GetComponent<IBugControl>());
+        }
     }
 }
