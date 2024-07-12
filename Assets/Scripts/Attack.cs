@@ -7,7 +7,7 @@ public class Attack : MonoBehaviour
 {
     private void OnEnable()
     {
-        Destroy(gameObject, 0.5f);
+        Destroy(gameObject, 0.3f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

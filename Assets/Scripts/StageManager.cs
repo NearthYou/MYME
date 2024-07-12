@@ -7,17 +7,18 @@ using Random = UnityEngine.Random;
 
 public class StageManager : MonoBehaviour
 {
-    [SerializeField] private bool isStart = false;
+    [FormerlySerializedAs("isStart")] [SerializeField] private bool isStageStart = false;
     [SerializeField] private GameObject monsterPrefab;
     [SerializeField] private GameObject monsterSpawnPoint;
     [SerializeField] private Transform monsterSpawnTransform;
-    private GameObject[] monsterSpawnPoints;
     
     [Header("Monster Spawn Setting")]
     [SerializeField] float spawnDelayTime = 2f;
-    float currentTime = 0f;
-    // Update is called once per frame
-
+    
+    private GameObject[] monsterSpawnPoints;
+    private float currentTime = 0f;
+    private float stageCount;
+    
     private void Start()
     {
         currentTime = spawnDelayTime;
@@ -27,10 +28,17 @@ public class StageManager : MonoBehaviour
             monsterSpawnPoints[i] = monsterSpawnPoint.transform.GetChild(i).gameObject;
         }
     }
+    
+    public void StartStage(float delayTime = 2f)
+    {
+        spawnDelayTime = delayTime;
+        currentTime = spawnDelayTime;
+        isStageStart = true;
+    }
 
     private void Update()
     {
-        if (isStart)
+        if (isStageStart)
         {
             currentTime -= Time.deltaTime;
             

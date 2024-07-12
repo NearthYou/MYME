@@ -20,6 +20,7 @@ public class PlayerInput : MonoBehaviour
     
     private bool isMoving;
     private float hp = 3f;
+    private GameObject attackObject;
 
     void Start()
     {
@@ -48,19 +49,22 @@ public class PlayerInput : MonoBehaviour
 
     void OnAttack()
     {
+        if(attackObject != null)
+            Destroy(attackObject);
+        
         switch (direction)
         {
             case EDirection.East:
-                Instantiate(attackHorizontal, transform.position + Vector3.right, Quaternion.identity);
+                attackObject = Instantiate(attackHorizontal, transform.position + Vector3.right, Quaternion.identity);
                 break;
             case EDirection.West:
-                Instantiate(attackHorizontal, transform.position + Vector3.left, Quaternion.identity);
+                attackObject=Instantiate(attackHorizontal, transform.position + Vector3.left, Quaternion.identity);
                 break;
             case EDirection.North:
-                Instantiate(attackVertical, transform.position + Vector3.up, Quaternion.identity);
+                attackObject= Instantiate(attackVertical, transform.position + Vector3.up, Quaternion.identity);
                 break;
             case EDirection.South:
-                Instantiate(attackVertical, transform.position + Vector3.down, Quaternion.identity);
+                attackObject= Instantiate(attackVertical, transform.position + Vector3.down, Quaternion.identity);
                 break;
         }
     }

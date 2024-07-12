@@ -6,7 +6,6 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 3f;
-    [SerializeField] private float rotateAngle = 90f;
 
     private GameObject player;
     private EDirection direction;

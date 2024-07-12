@@ -9,3 +9,12 @@ public enum EDirection
         South,
         North
 }
+
+public enum EErrorType
+{
+        None,
+        Continuous,
+        Error2,
+        Error3,
+        Random
+}
