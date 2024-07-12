@@ -24,7 +24,7 @@ public class StageManager : MonoBehaviour
     
     private float[] spawnDelayTime;
     private int[] monsterCount;
-    private int[] monsterSpeed;
+    private float[] monsterSpeed;
     
     private GameObject[] monsterSpawnPoints;
     
@@ -46,7 +46,7 @@ public class StageManager : MonoBehaviour
         
         spawnDelayTime = Managers.Data.MonsterDelay.Select(x=>float.Parse(x)).ToArray();
         monsterCount = Managers.Data.MonsterAmmount.Select(x=>int.Parse(x)).ToArray();
-        monsterSpeed = Managers.Data.MonsterSpeed.Select(x=>int.Parse(x)).ToArray();
+        monsterSpeed = Managers.Data.MonsterSpeed.Select(x=>float.Parse(x)).ToArray();
         
         //NextStage();
     }
