@@ -32,8 +32,8 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Monster"))
         {
+            other.GetComponent<Monster>().Dead();
             OnDamage();
-            Destroy(other.gameObject);
         }
     }
 }

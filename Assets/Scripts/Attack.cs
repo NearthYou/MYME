@@ -14,7 +14,7 @@ public class Attack : MonoBehaviour
     {
         if (other.CompareTag("Monster"))
         {
-            Destroy(other.gameObject);
+            other.GetComponent<Monster>().Dead();
         }
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    public static event Action OnMonsterDie;
+    
     [SerializeField] private float moveSpeed = 3f;
 
     private GameObject player;
@@ -55,6 +57,7 @@ public class Monster : MonoBehaviour
     
     public void Dead()
     {
+        OnMonsterDie?.Invoke();
         Destroy(gameObject);
     }
 }
