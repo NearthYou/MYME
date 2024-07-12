@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Monster
   - Bug
+  - InitPos
   layers:
   - Default
   - TransparentFX

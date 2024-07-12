@@ -7,8 +7,11 @@ using UnityEngine.Serialization;
 
 public class PlayerInput : MonoBehaviour
 {
+    public static event Action<bool> OnMoveEvent;
+    
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private bool canMove;
+    [SerializeField] private Transform initialPosition;
     
     [Header("Attack Prefab")]
     [SerializeField] private GameObject attackHorizontal;
@@ -19,8 +22,8 @@ public class PlayerInput : MonoBehaviour
     private EDirection direction;
     
     private bool isMoving;
-    private bool isStandingOnBug;
     private bool isAttacking;
+    private bool isStandingInit;
 
     private float hp = 3f;
     private GameObject attackObject;
@@ -49,7 +52,7 @@ public class PlayerInput : MonoBehaviour
             if (coolTime <= 0)
             {
                 isAttacking = false;
-                coolTime = 1f;
+                coolTime = 0.2f;
             }
         }
     }
@@ -83,6 +86,9 @@ public class PlayerInput : MonoBehaviour
     {
         if (!isAttacking)
         {
+            if (attackObject != null)
+                Destroy(attackObject);
+            
             switch (direction)
             {
                 case EDirection.East:
@@ -104,7 +110,17 @@ public class PlayerInput : MonoBehaviour
 
     void OnFixation(InputValue value)
     {
-        canMove = !canMove;
+        if (isStandingInit)
+        {
+            canMove = !canMove;
+            transform.position = initialPosition.position;
+            OnMoveEvent?.Invoke(!canMove);
+        }
+    }
+    
+    public void SetIsStandingInit(bool value)
+    {
+        isStandingInit = value;
     }
 
     private void SetDirection(Vector2 value)

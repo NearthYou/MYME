@@ -6,15 +6,22 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerHearts playerHearts;
+    [SerializeField] private PlayerCamera playerCamera;
     private PlayerInput playerInput;
-    
-    private int hp=3;
+
+    private int hp = 3;
 
     private void Start()
     {
+        PlayerInput.OnMoveEvent += ChangeCamera;
         playerInput = GetComponent<PlayerInput>();
         hp = 3;
         playerHearts.SetHearts(hp);
+    }
+
+    private void OnDestroy()
+    {
+        PlayerInput.OnMoveEvent -= ChangeCamera;
     }
 
     private void OnDamage()
@@ -44,5 +51,22 @@ public class Player : MonoBehaviour
         {
             playerInput.SetBug(other.GetComponent<IBugControl>());
         }
+        else if (other.CompareTag("InitPos"))
+        {
+            playerInput.SetIsStandingInit(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("InitPos"))
+        {
+            playerInput.SetIsStandingInit(false);
+        }
+    }
+
+    private void ChangeCamera(bool isDefense)
+    {
+        playerCamera.SetCamera(isDefense);
     }
 }
