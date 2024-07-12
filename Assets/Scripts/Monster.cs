@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 3f;
-
+    public static event Action OnMonsterDie;
+    
+    private float moveSpeed;
     private GameObject player;
     private EDirection direction;
     private SpriteRenderer spr;
@@ -21,8 +22,7 @@ public class Monster : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (player != null)
@@ -55,6 +55,12 @@ public class Monster : MonoBehaviour
     
     public void Dead()
     {
+        OnMonsterDie?.Invoke();
         Destroy(gameObject);
+    }
+
+    public void SetSpeed(float speed)
+    {
+        moveSpeed = speed;
     }
 }

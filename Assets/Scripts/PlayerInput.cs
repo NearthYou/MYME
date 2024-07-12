@@ -19,8 +19,11 @@ public class PlayerInput : MonoBehaviour
     private EDirection direction;
     
     private bool isMoving;
+    private bool isStandingOnBug;
+
     private float hp = 3f;
     private GameObject attackObject;
+    private IBugControl bug;
 
     void Start()
     {
@@ -49,23 +52,30 @@ public class PlayerInput : MonoBehaviour
 
     void OnAttack()
     {
-        if(attackObject != null)
-            Destroy(attackObject);
-        
-        switch (direction)
+        if (bug != null)
         {
-            case EDirection.East:
-                attackObject = Instantiate(attackHorizontal, transform.position + Vector3.right, Quaternion.identity);
-                break;
-            case EDirection.West:
-                attackObject=Instantiate(attackHorizontal, transform.position + Vector3.left, Quaternion.identity);
-                break;
-            case EDirection.North:
-                attackObject= Instantiate(attackVertical, transform.position + Vector3.up, Quaternion.identity);
-                break;
-            case EDirection.South:
-                attackObject= Instantiate(attackVertical, transform.position + Vector3.down, Quaternion.identity);
-                break;
+            bug.DeleteBug();
+        }
+        else
+        {
+            if(attackObject != null)
+                Destroy(attackObject);
+        
+            switch (direction)
+            {
+                case EDirection.East:
+                    attackObject = Instantiate(attackHorizontal, transform.position + Vector3.right, Quaternion.identity);
+                    break;
+                case EDirection.West:
+                    attackObject=Instantiate(attackHorizontal, transform.position + Vector3.left, Quaternion.identity);
+                    break;
+                case EDirection.North:
+                    attackObject= Instantiate(attackVertical, transform.position + Vector3.up, Quaternion.identity);
+                    break;
+                case EDirection.South:
+                    attackObject= Instantiate(attackVertical, transform.position + Vector3.down, Quaternion.identity);
+                    break;
+            }
         }
     }
 
@@ -101,30 +111,9 @@ public class PlayerInput : MonoBehaviour
             spriteRenderer.flipY = false;
         }
     }
-    
-    //// 몬스터와 방향이 정반대인지 확인하는 코드
-    // public bool CheckDirection(EDirection _direction)
-    // {
-    //     switch (direction)
-    //     {
-    //         case EDirection.East:
-    //             if(_direction != EDirection.West)
-    //                 return false;
-    //             break;
-    //         case EDirection.West:
-    //             if(_direction != EDirection.East)
-    //                 return false;
-    //             break;
-    //         case EDirection.North:
-    //             if(_direction != EDirection.South)
-    //                 return false;
-    //             break;
-    //         case EDirection.South:
-    //             if(_direction != EDirection.North)
-    //                 return false;
-    //             break;
-    //     }
-    //
-    //     return true;
-    // }
+
+    public void SetBug(IBugControl bugControl)
+    {
+        bug = bugControl;
+    }
 }

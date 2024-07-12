@@ -5,24 +5,29 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private PlayerHearts playerHearts;
     private PlayerInput playerInput;
-    private float hp;
+    
+    private int hp;
 
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
-        hp = 1000;
+        hp = 3;
+        playerHearts.SetHearts(hp);
     }
 
     private void OnDamage()
     {
         if (hp > 1)
         {
-            //hp--;
+            hp--;
+            playerHearts.SetHearts(hp);
             //Debug.Log($"Player HP: {hp}");
         }
         else
         {
+            playerHearts.SetHearts(0);
             Debug.Log("Game Over");
             Time.timeScale = 0;
         }
@@ -32,8 +37,12 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Monster"))
         {
+            other.GetComponent<Monster>().Dead();
             OnDamage();
-            Destroy(other.gameObject);
+        }
+        else if (other.CompareTag("Bug"))
+        {
+            playerInput.SetBug(other.GetComponent<IBugControl>());
         }
     }
 }

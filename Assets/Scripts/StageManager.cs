@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -14,6 +15,7 @@ public class StageManager : MonoBehaviour
     
     [Header("UI")]
     [SerializeField] private StageText stageText;
+    [SerializeField] private MonsterText monsterText;
     
     [SerializeField] private bool isStageStart = false;
     [SerializeField] private GameObject monsterPrefab;
@@ -22,14 +24,20 @@ public class StageManager : MonoBehaviour
     
     private float[] spawnDelayTime;
     private int[] monsterCount;
+    private int[] monsterSpeed;
     
     private GameObject[] monsterSpawnPoints;
+    
     private float currentTime = 0f;
+    private int monCount;
     private int curMonCount;
+    private int remainMonCount;
+    private float speed;
     
     private void Start()
     {
-        //currentTime = spawnDelayTime;
+        Monster.OnMonsterDie += CountUp;
+        
         monsterSpawnPoints = new GameObject[monsterSpawnPoint.transform.childCount];
         for (int i = 0; i < monsterSpawnPoint.transform.childCount; i++)
         {
@@ -38,22 +46,35 @@ public class StageManager : MonoBehaviour
         
         spawnDelayTime = Managers.Data.MonsterDelay.Select(x=>float.Parse(x)).ToArray();
         monsterCount = Managers.Data.MonsterAmmount.Select(x=>int.Parse(x)).ToArray();
+        monsterSpeed = Managers.Data.MonsterSpeed.Select(x=>int.Parse(x)).ToArray();
         
         //NextStage();
     }
-    
-    public void NextStage()
+
+    private void OnDestroy()
     {
-        stageText.SetStageText(stageCount);
-        currentTime = spawnDelayTime[stageCount-1];
-        curMonCount = monsterCount[stageCount-1];
-        isStageStart = true;
+        Monster.OnMonsterDie -= CountUp;
     }
 
-    public void StageClear()
+    public void NextStage()
     {
-        stageCount++;
-        isStageStart = false;
+        currentTime = spawnDelayTime[stageCount-1];
+        speed = monsterSpeed[stageCount-1];
+        monCount = monsterCount[stageCount-1];
+        remainMonCount = monCount;
+        curMonCount = 0;
+        StartCoroutine(WaitMonsterDead(monCount));
+        
+        stageText.SetText(stageCount);
+        monsterText.SetText(monCount);
+        
+        isStageStart = true;
+    }
+    
+    private void CountUp()
+    {
+        curMonCount++;
+        monsterText.SetText(remainMonCount - curMonCount);
     }
 
     private void Update()
@@ -62,37 +83,37 @@ public class StageManager : MonoBehaviour
         {
             currentTime -= Time.deltaTime;
             
-            if (currentTime <= 0 && curMonCount > 0)
+            if (currentTime <= 0 && monCount > 0)
             {
                 SpawnMonster();
-                curMonCount--;
+                monCount--;
                 currentTime = spawnDelayTime[stageCount];
             }
-            else if (curMonCount <= 0)
+            else if (monCount <= 0)
             {
+                monCount = 0;
                 isStageStart = false;
+                stageCount++;
+                Invoke(nameof(NextStage), 3f);
             }
         }
+    }
+
+    private IEnumerator WaitMonsterDead(int count)
+    {
+        yield return new WaitUntil(()=> curMonCount == count);
+        
+        yield return new WaitForSeconds(5f);
+        NextStage();
     }
     
     private void SpawnMonster()
     {
         int randomIndex = Random.Range(0, monsterSpawnPoints.Length);
-        var monster = Instantiate(monsterPrefab, monsterSpawnPoints[randomIndex].transform.position, Quaternion.identity, monsterParent);
-        monster.GetComponent<Monster>().SetDirection((EDirection)randomIndex);
+        var monster = Instantiate(monsterPrefab, monsterSpawnPoints[randomIndex].transform.position,
+            Quaternion.identity, monsterParent).GetComponent<Monster>();
+        monster.SetDirection((EDirection)randomIndex);
+        monster.SetSpeed(speed); 
     }
-
-    public void SkipStageButton()
-    {
-        isStageStart = false;
-        stageCount++;
-        
-        var monsters = monsterParent.GetComponentsInChildren<Monster>();
-        foreach (var monster in monsters)
-        {
-            monster.Dead();
-        }
-        
-        NextStage();
-    }
+    
 }

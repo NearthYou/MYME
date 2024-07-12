@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class StageText : UIText
+public class MonsterText : UIText
 {
     public override void SetText<T>(T value)
     {
-        text.text = $"현재 스테이지 : {value}";
+        text.text = $"남은 몬스터 수 : {value}";
     }
 }
