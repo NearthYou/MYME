@@ -18,8 +18,8 @@ public class Player : MonoBehaviour
     {
         if (hp > 1)
         {
-            hp--;
-            Debug.Log($"Player HP: {hp}");
+            //hp--;
+            //Debug.Log($"Player HP: {hp}");
         }
         else
         {
