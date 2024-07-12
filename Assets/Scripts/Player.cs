@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerHearts playerHearts;
     private PlayerInput playerInput;
     
-    private int hp;
+    private int hp=3;
 
     private void Start()
     {

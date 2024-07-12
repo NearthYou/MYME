@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IBugControl
 {
     public void DeleteBug();
+    bool canDeleted { get; set; }
 }

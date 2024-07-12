@@ -724,6 +724,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1803587764}
   - {fileID: 35978978}
   - {fileID: 229254320}
   m_Father: {fileID: 0}
@@ -1741,6 +1742,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1604678308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1604678309}
+  m_Layer: 0
+  m_Name: ===================
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1604678309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604678308}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1640770179
 GameObject:
   m_ObjectHideFlags: 0
@@ -2035,12 +2067,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803587762}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 298258619}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1803587765
 CircleCollider2D:
@@ -2324,7 +2356,7 @@ MonoBehaviour:
   stageCount: 1
   stageText: {fileID: 1640770183}
   monsterText: {fileID: 1539337204}
-  isStageStart: 0
+  isStageStart: 1
   monsterPrefab: {fileID: 5789096601561805701, guid: 2edec8817e91cdc4ba36ce9993bd3d78, type: 3}
   monsterSpawnPoint: {fileID: 2111240575}
   monsterParent: {fileID: 229254320}
@@ -2370,8 +2402,8 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 192790166}
   - {fileID: 298258619}
+  - {fileID: 1848286169}
+  - {fileID: 1604678309}
   - {fileID: 2063470294}
   - {fileID: 252466261}
-  - {fileID: 1848286169}
   - {fileID: 1754409371}
-  - {fileID: 1803587764}

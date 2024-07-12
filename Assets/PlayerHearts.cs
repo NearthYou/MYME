@@ -5,28 +5,28 @@ using UnityEngine;
 
 public class PlayerHearts : MonoBehaviour
 {
-    private GameObject[] hearts;
+    private List<GameObject> hearts;
 
-    private void Start()
+    private void Awake()
     {
-        hearts = new GameObject[transform.childCount];
+        hearts = new List<GameObject>();
         for (int i = 0; i < transform.childCount; i++)
         {
-            hearts[i] = transform.GetChild(i).gameObject;
+            hearts.Add(transform.GetChild(i).gameObject);
         }
     }
 
     public void SetHearts(int value)
     {
-        for (int i = 0; i < hearts.Length; i++)
+        for (int i = 0; i < hearts.Count; i++)
         {
             if (i < value)
             {
-                hearts[i].SetActive(true);
+                hearts[i]?.SetActive(true);
             }
             else
             {
-                hearts[i].SetActive(false);
+                hearts[i]?.SetActive(false);
             }
         }
     }
