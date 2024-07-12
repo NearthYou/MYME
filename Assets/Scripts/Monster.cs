@@ -52,4 +52,9 @@ public class Monster : MonoBehaviour
                 break;
         }
     }
+    
+    public void Dead()
+    {
+        Destroy(gameObject);
+    }
 }
