@@ -22,17 +22,19 @@ public class BugHole : MonoBehaviour, IBugControl
     {
         if (hp <= 0)
         {
+            //animator.SetTrigger(1.ToString());
             OnBugDie?.Invoke();
             canDeleted = true;
             Destroy(arrow);
-            Destroy(gameObject);
+            Destroy(gameObject, 0.5f);
         }
     }
 
     public void DeleteBug()
     {
         hp--;
-        ChangeAnimation(hp);
+        if(hp<=3)
+            ChangeAnimation(hp);
 
         if (hp <= 0)
         {
@@ -45,12 +47,9 @@ public class BugHole : MonoBehaviour, IBugControl
         arrow = _arrow;
         arrow.GetComponent<Navigation>().SetTarget(transform);
     }
-
+    
     private void ChangeAnimation(int count)
     {
-        if (count == 0)
-            return;
-        
-        animator.SetTrigger(count.ToString());
+        animator.SetTrigger((count+1).ToString());
     }
 }

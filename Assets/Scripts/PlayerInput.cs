@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using UnityEngine.SubsystemsImplementation;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class PlayerInput : MonoBehaviour
     private Vector2 moveDirection;
     private EDirection direction;
     private SuspicionAddTimer suspicionAddTimer;
-    
+    private Animator animator;
     
     
     private bool isMoving;
@@ -51,6 +52,8 @@ public class PlayerInput : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         suspicionAddTimer = Utils.TryOrAddComponent<SuspicionAddTimer>(gameObject);
         suspicionAddTimer.SetTimer(1,10);
+        animator = GetComponent<Animator>();
+        direction = EDirection.South;
     }
 
     void Update()
@@ -66,8 +69,13 @@ public class PlayerInput : MonoBehaviour
             
             if (isMoving)
             {
+                animator.enabled = true;
                 transform.position += new Vector3(moveDirection.x, moveDirection.y, 0) * Time.deltaTime * moveSpeed;
             }
+            // else
+            // {
+            //     animator.enabled = false;
+            // }
         }
 
         if (isAttacking)
@@ -138,6 +146,8 @@ public class PlayerInput : MonoBehaviour
         {
             canMove = !canMove;
             transform.position = initialPosition.position;
+            SetDirection(EDirection.South);
+            animator.enabled = false;
             OnMoveEvent?.Invoke(!canMove);
         }
     }
@@ -152,6 +162,7 @@ public class PlayerInput : MonoBehaviour
         if (value == Vector2.left)
         {
             direction = EDirection.West;
+            animator.SetTrigger("Side");
             spriteRenderer.sprite = sprites[0];
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
@@ -160,6 +171,7 @@ public class PlayerInput : MonoBehaviour
         {
             direction = EDirection.East;
             spriteRenderer.sprite = sprites[0];
+            animator.SetTrigger("Side");
             spriteRenderer.flipX = true;
             spriteRenderer.flipY = false;
         }
@@ -167,6 +179,7 @@ public class PlayerInput : MonoBehaviour
         {
             direction = EDirection.North;
             spriteRenderer.sprite = sprites[2];
+            animator.SetTrigger("Behind");
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
         }
@@ -174,10 +187,49 @@ public class PlayerInput : MonoBehaviour
         {
             direction = EDirection.South;
             spriteRenderer.sprite = sprites[1];
+            animator.SetTrigger("Front");
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
         }
     }
+    
+    private void SetDirection(EDirection direction)
+    {
+        if (direction == EDirection.West)
+        {
+            direction = EDirection.West;
+            animator.SetTrigger("Side");
+            spriteRenderer.sprite = sprites[0];
+            spriteRenderer.flipX = false;
+            spriteRenderer.flipY = false;
+        }
+        else if (direction == EDirection.East)
+        {
+            direction = EDirection.East;
+            spriteRenderer.sprite = sprites[0];
+            animator.SetTrigger("Side");
+            spriteRenderer.flipX = true;
+            spriteRenderer.flipY = false;
+        }
+        else if (direction == EDirection.North)
+        {
+            direction = EDirection.North;
+            spriteRenderer.sprite = sprites[2];
+            animator.SetTrigger("Behind");
+            spriteRenderer.flipX = false;
+            spriteRenderer.flipY = false;
+        }
+        else if (direction == EDirection.South)
+        {
+            direction = EDirection.South;
+            spriteRenderer.sprite = sprites[1];
+            animator.SetTrigger("Front");
+            spriteRenderer.flipX = false;
+            spriteRenderer.flipY = false;
+        }
+    }
+    
+    
 
     // public void SetBug(IBugControl bugControl)
     // {
