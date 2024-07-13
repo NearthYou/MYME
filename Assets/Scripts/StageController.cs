@@ -80,7 +80,6 @@ public class StageController : MonoBehaviour
     private void CountDeadMonster()
     {
         curMonCount++;
-        Debug.Log(curMonCount);
         playerUI.SetMonsterText(remainMonCount - curMonCount);
     }
     

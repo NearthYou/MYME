@@ -10,12 +10,14 @@ public class BugHole : MonoBehaviour, IBugControl
     public bool canDeleted { get; set; }
     private int hp;
     private GameObject arrow;
+    private Animator animator;
 
     private void Start()
     {
         hp = 5;
+        animator = GetComponent<Animator>();
     }
-    
+
     private void Update()
     {
         if (hp <= 0)
@@ -30,20 +32,29 @@ public class BugHole : MonoBehaviour, IBugControl
     public void DeleteBug()
     {
         hp--;
-        if (transform.localScale.x > 0.2f)
-        {
-            transform.localScale = new Vector3(transform.localScale.x - 0.2f, transform.localScale.y - 0.2f);
-        }
+        ChangeAnimation(hp);
+        // if (transform.localScale.x > 0.2f)
+        // {
+        //     transform.localScale = new Vector3(transform.localScale.x - 0.2f, transform.localScale.y - 0.2f);
+        // }
 
         if (hp <= 0)
         {
             canDeleted = true;
         }
     }
-    
+
     public void SetArrow(GameObject _arrow)
     {
         arrow = _arrow;
         arrow.GetComponent<Navigation>().SetTarget(transform);
+    }
+
+    private void ChangeAnimation(int count)
+    {
+        if (count == 4)
+            return;
+        
+        animator.SetTrigger((count+1).ToString());
     }
 }
