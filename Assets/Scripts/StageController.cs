@@ -28,15 +28,18 @@ public class StageController : MonoBehaviour
     
     private GameObject[] monsterSpawnPoints;
     
+    private float speed;
     private float currentTime = 0f;
+    
     private int monCount;
     private int curMonCount;
     private int remainMonCount;
-    private float speed;
+    private int bugCount;
     
     private void Start()
     {
-        Monster.OnMonsterDie += CountUp;
+        Monster.OnMonsterDie += CountDeadMonster;
+        BugHole.OnBugDie += CountDeleteBug;
         
         monsterSpawnPoints = new GameObject[monsterSpawnPoint.transform.childCount];
         for (int i = 0; i < monsterSpawnPoint.transform.childCount; i++)
@@ -44,12 +47,13 @@ public class StageController : MonoBehaviour
             monsterSpawnPoints[i] = monsterSpawnPoint.transform.GetChild(i).gameObject;
         }
         
-        NextStage();
+        //NextStage();
     }
 
     private void OnDestroy()
     {
-        Monster.OnMonsterDie -= CountUp;
+        Monster.OnMonsterDie -= CountDeadMonster;
+        BugHole.OnBugDie -= CountDeleteBug;
     }
 
     public void NextStage()
@@ -60,7 +64,8 @@ public class StageController : MonoBehaviour
         monCount = Managers.Data.MonsterAmmount[stageCount];
         remainMonCount = monCount;
         curMonCount = 0;
-        StartCoroutine(WaitMonsterDead(monCount));
+        bugCount = 0;
+        StartCoroutine(WaitStageClear(monCount));
         
         playerUI.SetStageText(stageCount+1);
         playerUI.SetMonsterText(monCount);
@@ -68,11 +73,17 @@ public class StageController : MonoBehaviour
         isStageStart = true;
     }
     
-    private void CountUp()
+    private void CountDeadMonster()
     {
         curMonCount++;
         Debug.Log(curMonCount);
         playerUI.SetMonsterText(remainMonCount - curMonCount);
+    }
+    
+    private void CountDeleteBug()
+    {
+        bugCount++;
+        Debug.Log(bugCount);
     }
 
     private void Update()
@@ -95,11 +106,16 @@ public class StageController : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitMonsterDead(int count)
+    private IEnumerator WaitStageClear(int count)
     {
         yield return new WaitUntil(()=> curMonCount == count);
+
+        var randomBugCount = Random.Range(3, 7);
+        bugSpawnManager.SpawnBug(randomBugCount);
         
-        yield return new WaitForSeconds(6f);
+        yield return new WaitUntil(()=> bugCount == randomBugCount);
+        
+        yield return new WaitForSeconds(3f);
         
         stageCount++;
         NextStage();

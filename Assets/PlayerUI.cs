@@ -8,9 +8,10 @@ public class PlayerUI : MonoBehaviour
     [Header("Text")]
     [SerializeField] private StageText stageText;
     [SerializeField] private MonsterText monsterText;
+    [Space(5)]
     
-    [Header("Heart")]
     [SerializeField] private PlayerHearts playerHearts;
+    [SerializeField] private Suspicion suspicion;
     
     public void SetStageText(int stage)
     {
@@ -25,5 +26,10 @@ public class PlayerUI : MonoBehaviour
     public void SetHearts(int hp)
     {
         playerHearts.SetHearts(hp);
+    }
+    
+    public void SetSuspicion(int value)
+    {
+        suspicion.SetGauge(value);
     }
 }

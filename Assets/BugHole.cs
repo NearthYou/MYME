@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class BugHole : MonoBehaviour, IBugControl
 {
+    public static event Action OnBugDie;
+
     public bool canDeleted { get; set; }
     private int hp;
     private GameObject arrow;
@@ -18,6 +20,7 @@ public class BugHole : MonoBehaviour, IBugControl
     {
         if (hp <= 0)
         {
+            OnBugDie?.Invoke();
             canDeleted = true;
             Destroy(arrow);
             Destroy(gameObject);
