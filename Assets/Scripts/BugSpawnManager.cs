@@ -29,7 +29,7 @@ public class BugSpawnManager : MonoBehaviour
             Vector3 randomPosition = GetRandomPosition();
         
             var bug = Instantiate(bugPrefab, randomPosition, Quaternion.identity);
-            bug.GetComponent<BugHole>().SetArrow(Instantiate(arrowPrefab, Vector2.zero, Quaternion.identity));
+            bug.GetComponent<BugHole>().SetArrow(Instantiate(arrowPrefab, randomPosition, Quaternion.identity));
         }
     }
     

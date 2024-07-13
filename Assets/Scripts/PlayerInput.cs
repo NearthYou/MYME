@@ -63,7 +63,7 @@ public class PlayerInput : MonoBehaviour
         suspicionAddTimer.SetTimer(1, 10);
         animator = GetComponent<Animator>();
         direction = EDirection.South;
-        canPressed = true;
+        canPressed = false;
     }
 
     void Update()

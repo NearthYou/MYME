@@ -14,7 +14,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     private void Update()

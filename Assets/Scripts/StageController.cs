@@ -55,7 +55,7 @@ public class StageController : MonoBehaviour
         }
         
         bugCount = 0;
-        NextStage();
+        //NextStage();
     }
 
     private void OnDestroy()
