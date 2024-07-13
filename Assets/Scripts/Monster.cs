@@ -20,7 +20,7 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
-        target = GameObject.FindGameObjectWithTag("InitPos");
+        target = GameObject.FindGameObjectWithTag("Player");
     }
     
     void Update()

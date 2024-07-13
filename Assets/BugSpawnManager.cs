@@ -14,19 +14,23 @@ public class BugSpawnManager : MonoBehaviour
     [SerializeField] private BoxCollider2D excludeCollider;
     
     private Bounds excludeBounds;
+    private int bugCount;
 
     private void Start()
     {
         excludeBounds = excludeCollider.bounds;
+        bugCount = 0;
     }
 
-    public void SpawnBug()
+    public void SpawnBug(int num)
     {
-
-        Vector3 randomPosition = GetRandomPosition();
+        for (int i = 0; i < num; i++)
+        {
+            Vector3 randomPosition = GetRandomPosition();
         
-        var bug = Instantiate(bugPrefab, randomPosition, Quaternion.identity);
-        bug.GetComponent<BugHole>().SetArrow(Instantiate(arrowPrefab, Vector2.zero, Quaternion.identity));
+            var bug = Instantiate(bugPrefab, randomPosition, Quaternion.identity);
+            bug.GetComponent<BugHole>().SetArrow(Instantiate(arrowPrefab, Vector2.zero, Quaternion.identity));
+        }
     }
     
     private Vector3 GetRandomPosition()
