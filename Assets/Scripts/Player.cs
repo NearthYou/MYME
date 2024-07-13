@@ -48,6 +48,16 @@ public class Player : MonoBehaviour
         }
         Invoke("OffDamage", 1f);
     }
+
+    private void OnHeal()
+    {
+        hp++;
+        
+        if (hp > 3)
+            hp = 3;
+        playerUI.SetHearts(hp);
+        Debug.Log($"Player HP: {hp}");
+    }
     
     private void OffDamage()
     {
@@ -61,6 +71,12 @@ public class Player : MonoBehaviour
         {
             other.GetComponent<Skeleton>().Suicide();
             OnDamage();
+        }
+        
+        if (other.CompareTag("Fairy"))
+        {
+            other.GetComponent<Fairy>().Suicide();
+            OnHeal();
         }
         
         if (other.CompareTag("Bug"))

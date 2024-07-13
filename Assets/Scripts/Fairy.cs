@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skeleton : MonoBehaviour, ISpeed
+public class Fairy : MonoBehaviour, ISpeed
 {
     public static event Action OnMonsterDie;
 
@@ -21,7 +21,7 @@ public class Skeleton : MonoBehaviour, ISpeed
         spr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         circleCollider2D = GetComponent<CircleCollider2D>();
-        gameObject.tag = "Monster";
+        gameObject.tag = "Fairy";
     }
 
     void Start()
@@ -82,15 +82,6 @@ public class Skeleton : MonoBehaviour, ISpeed
         }
 
         isRunning = false;
-    }
-
-    public void Dead()
-    {
-        animator.SetTrigger("Death");
-        target = null;
-        circleCollider2D.enabled = false;
-        OnMonsterDie?.Invoke();
-        Destroy(gameObject,0.2f);
     }
 
     public void Suicide()

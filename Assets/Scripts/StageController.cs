@@ -17,7 +17,7 @@ public class StageController : MonoBehaviour
     [SerializeField] private PlayerUI playerUI;
 
     [Header("Monster")]
-    [SerializeField] private GameObject monsterPrefab;
+    [SerializeField] private GameObject[] monsterPrefab;
     [SerializeField] private GameObject monsterSpawnPoint;
     [SerializeField] private Transform monsterParent;
     
@@ -41,6 +41,7 @@ public class StageController : MonoBehaviour
     private void Start()
     {
         Skeleton.OnMonsterDie += CountDeadMonster;
+        Fairy.OnMonsterDie += CountDeadMonster;
         BugHole.OnBugDie += CountDeleteBug;
         
         suspicionAddTimer = Utils.TryOrAddComponent<SuspicionAddTimer>(gameObject);
@@ -58,6 +59,7 @@ public class StageController : MonoBehaviour
     private void OnDestroy()
     {
         Skeleton.OnMonsterDie -= CountDeadMonster;
+        Fairy.OnMonsterDie -= CountDeadMonster;
         BugHole.OnBugDie -= CountDeleteBug;
     }
 
@@ -139,9 +141,11 @@ public class StageController : MonoBehaviour
     
     private void SpawnMonster()
     {
+        GameObject monsterPrefabs = Utils.GetRandom(30f) ? monsterPrefab[1] : monsterPrefab[0];
+        
         int randomIndex = Random.Range(0, monsterSpawnPoints.Length);
-        var monster = Instantiate(monsterPrefab, monsterSpawnPoints[randomIndex].transform.position,
-            Quaternion.identity, monsterParent).GetComponent<Skeleton>();
+        var monster = Instantiate(monsterPrefabs, monsterSpawnPoints[randomIndex].transform.position,
+            Quaternion.identity, monsterParent).GetComponent<ISpeed>();
         monster.SetSpeed(speed); 
     }
     

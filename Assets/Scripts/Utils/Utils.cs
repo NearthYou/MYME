@@ -88,4 +88,18 @@ public class Utils
             obj.transform.parent = go;
         }
     }
+    
+    public static bool GetRandom(float probability)
+    {
+        float percentage = probability / 100;
+        float rate = 100 - (100 * percentage);
+        int tmp = Random.Range(0, 100);
+
+        if (tmp <= rate - 1)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

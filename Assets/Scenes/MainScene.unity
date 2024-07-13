@@ -4599,7 +4599,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStageStart: 0
   playerUI: {fileID: 697427076}
-  monsterPrefab: {fileID: 5789096601561805701, guid: 2edec8817e91cdc4ba36ce9993bd3d78, type: 3}
+  monsterPrefab:
+  - {fileID: 5789096601561805701, guid: 2edec8817e91cdc4ba36ce9993bd3d78, type: 3}
+  - {fileID: 5789096601561805701, guid: 8eecaf4935d3722409f6b0207b6e2ffd, type: 3}
   monsterSpawnPoint: {fileID: 2111240575}
   monsterParent: {fileID: 229254320}
   bugSpawnManager: {fileID: 111016754}
