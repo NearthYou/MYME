@@ -11,10 +11,12 @@ public class Monster : MonoBehaviour
     private GameObject target;
     private EDirection direction;
     private SpriteRenderer spr;
+    private Animator animator;
 
     private void Awake()
     {
         spr = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         gameObject.tag = "Monster";
     }
 
@@ -39,16 +41,16 @@ public class Monster : MonoBehaviour
         switch (direction)
         {
             case EDirection.East:
-                spr.flipX = false;
+                animator.SetTrigger("Right");
                 break;
             case EDirection.West:
-                spr.flipX = true;
+                animator.SetTrigger("Left");
                 break;
             case EDirection.South:
-                spr.flipY = false;
+                animator.SetTrigger("Behind");
                 break;
             case EDirection.North:
-                spr.flipY = true;
+                animator.SetTrigger("Front");
                 break;
         }
     }
