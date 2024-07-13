@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class PlayerUI : MonoBehaviour
     [Header("Text")]
     [SerializeField] private StageText stageText;
     [SerializeField] private MonsterText monsterText;
+    [SerializeField] private TMP_Text stateText; 
     [Space(5)]
     
     [SerializeField] private PlayerHearts playerHearts;
@@ -31,5 +33,10 @@ public class PlayerUI : MonoBehaviour
     public void SetSuspicion(int value)
     {
         suspicion.SetGauge(value);
+    }
+    
+    public void SetStateText(string text)
+    {
+        stateText.text = text;
     }
 }
