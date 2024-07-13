@@ -79,7 +79,7 @@ public class Navigation : MonoBehaviour
         }
         pos = new Vector3(pos.x + 1, pos.y + 1, pos.z + 1);
         pos /= 2.0f;
-        transform.position = Vector3.Lerp(transform.position , cam.ViewportToWorldPoint(pos * 0.9f + Vector3.one * 0.05f), Time.deltaTime * arrowSpeed) ;
+        transform.position = Vector3.Lerp(transform.position , cam.ViewportToWorldPoint(pos * 0.8f + Vector3.one * 0.1f), Time.deltaTime * arrowSpeed) ;
         LookAt2DLerp(target.position);
     }   
     

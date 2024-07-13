@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     private int hp = 3;
     private bool isHit;
+    public bool isTutorial;
     
     private void Start()
     {
@@ -30,6 +31,9 @@ public class Player : MonoBehaviour
 
     private void OnDamage()
     {
+        if (isTutorial)
+            return;
+        
         if (isHit)
             return;
         

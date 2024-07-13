@@ -7,7 +7,7 @@ public class PlayerHearts : MonoBehaviour
 {
     private List<GameObject> hearts;
 
-    private void Awake()
+    private void Start()
     {
         hearts = new List<GameObject>();
         for (int i = 0; i < transform.childCount; i++)
@@ -18,6 +18,9 @@ public class PlayerHearts : MonoBehaviour
 
     public void SetHearts(int value)
     {
+        if(hearts == null)
+            return;
+        
         for (int i = 0; i < hearts.Count; i++)
         {
             if (i < value)

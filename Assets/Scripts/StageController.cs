@@ -28,6 +28,7 @@ public class StageController : MonoBehaviour
     
     private GameObject[] monsterSpawnPoints;
     private SuspicionAddTimer suspicionAddTimer;
+    private List<GameObject> monsterList;
     
     private float speed;
     private float currentTime = 0f;
@@ -39,6 +40,7 @@ public class StageController : MonoBehaviour
     private int randomBugCount;
     private int bugProbability;
     private int fairyProbability;
+    public bool isTutorial;
     
     private void Start()
     {
@@ -46,6 +48,7 @@ public class StageController : MonoBehaviour
         Fairy.OnMonsterDie += CountDeadMonster;
         BugHole.OnBugDie += CountDeleteBug;
         
+        monsterList = new List<GameObject>();
         suspicionAddTimer = Utils.TryOrAddComponent<SuspicionAddTimer>(gameObject);
         suspicionAddTimer.SetTimer(1,10);
         monsterSpawnPoints = new GameObject[monsterSpawnPoint.transform.childCount];
@@ -67,6 +70,11 @@ public class StageController : MonoBehaviour
 
     public void NextStage()
     {
+        if (monsterList.Count > 0)
+        {
+            monsterList.Clear();
+        }
+        
         Debug.Log("NextStage");
         currentTime = Managers.Data.MonsterDelay[stageCount];
         speed = Managers.Data.MonsterSpeed[stageCount];
@@ -80,6 +88,25 @@ public class StageController : MonoBehaviour
         playerUI.SetStageText(stageCount+1);
         playerUI.SetMonsterText(monCount);
         
+        isStageStart = true;
+    }
+    
+    public void TutorialStart()
+    {
+        Debug.Log("TutorialStart");
+        currentTime = Managers.Data.MonsterDelay[stageCount];
+        speed = Managers.Data.MonsterSpeed[stageCount];
+        monCount = Managers.Data.MonsterAmmount[stageCount];
+        bugProbability = Managers.Data.ErrorProbality[stageCount];
+        fairyProbability = Managers.Data.FairyProbability[stageCount];
+        remainMonCount = monCount;
+        curMonCount = 0;
+        StartCoroutine(WaitStageClear(monCount));
+
+        playerUI.SetStageText(stageCount+1);
+        playerUI.SetMonsterText(monCount);
+        
+        isTutorial = true;
         isStageStart = true;
     }
     
@@ -119,6 +146,8 @@ public class StageController : MonoBehaviour
             {
                 monCount = 0;
                 isStageStart = false;
+
+
             }
         }
         
@@ -130,6 +159,12 @@ public class StageController : MonoBehaviour
     {
         yield return new WaitUntil(()=> curMonCount == count);
 
+        if (isTutorial)
+        {
+            StartCoroutine(GameManager.instance.NextStory());
+            yield break;
+        }
+        
         if (Utils.GetRandom(bugProbability))
         {
             // Error UI
@@ -163,8 +198,22 @@ public class StageController : MonoBehaviour
         
         int randomIndex = Random.Range(0, monsterSpawnPoints.Length);
         var monster = Instantiate(monsterPrefabs, monsterSpawnPoints[randomIndex].transform.position,
-            Quaternion.identity, monsterParent).GetComponent<ISpeed>();
-        monster.SetSpeed(speed); 
+            Quaternion.identity, monsterParent);
+        monster.GetComponent<ISpeed>().SetSpeed(speed); 
+        
+        monsterList.Add(monster);
+    }
+
+    public void SkipTutorial()
+    {
+        isStageStart = false;
+        StopAllCoroutines();
+        
+        if(monsterList.Count>0)
+            monsterList.ForEach(Destroy);
+        
+        stageCount = 0;
+        NextStage();
     }
     
 }

@@ -16,6 +16,8 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private PlayerHearts playerHearts;
     [SerializeField] private Suspicion suspicion;
     [SerializeField] private WarningSign warningSign;
+    [SerializeField] private GameObject manual;
+    [SerializeField] private GameObject skip;
 
     private void Start()
     {
@@ -43,6 +45,11 @@ public class PlayerUI : MonoBehaviour
         suspicion.SetGauge(value);
     }
     
+    public void ActiveSuspicion(bool isActive)
+    {
+        suspicion.gameObject.SetActive(isActive);
+    }
+    
     public void SetStateText(string text)
     {
         stateText.color = Color.black;
@@ -64,5 +71,15 @@ public class PlayerUI : MonoBehaviour
     public void SetWarningSignDelay(float delay = 1f)
     {
         warningSign.SetDelay(delay);
+    }
+    
+    public void SetManual(bool isManual)
+    {
+        manual.SetActive(isManual);
+    }
+    
+    public void SetSkipButton(bool isSkip)
+    {
+        skip.SetActive(isSkip);
     }
 }

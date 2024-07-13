@@ -25,6 +25,8 @@ public class PlayerInput : MonoBehaviour
 
     [Header("Sprites")] [SerializeField] private Sprite[] sprites;
 
+    public GameObject popup;
+    
     //private IBugControl bug;
     private GameObject attackObject;
     private SpriteRenderer spriteRenderer;
@@ -34,6 +36,7 @@ public class PlayerInput : MonoBehaviour
     private Animator animator;
 
 
+    
     private bool isMoving;
 
     private bool isAttacking;
@@ -41,6 +44,8 @@ public class PlayerInput : MonoBehaviour
     private bool canMove;
 
     private bool canPressed;
+
+    public bool isTutorial;
 
     public bool CanPressed
     {
@@ -55,6 +60,7 @@ public class PlayerInput : MonoBehaviour
 
     private float hp = 3f;
     private float coolTime = 0.3f;
+    private Rigidbody2D playerRb;
 
     void Start()
     {
@@ -64,9 +70,25 @@ public class PlayerInput : MonoBehaviour
         animator = GetComponent<Animator>();
         direction = EDirection.South;
         canPressed = false;
+        playerRb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
+    {
+
+
+        if (isAttacking)
+        {
+            coolTime -= Time.deltaTime;
+            if (coolTime <= 0)
+            {
+                isAttacking = false;
+                coolTime = 0.2f;
+            }
+        }
+    }
+
+    private void FixedUpdate()
     {
         if (canMove)
         {
@@ -80,21 +102,12 @@ public class PlayerInput : MonoBehaviour
             if (isMoving)
             {
                 animator.SetBool("Run", true);
-                transform.position += new Vector3(moveDirection.x, moveDirection.y, 0) * Time.deltaTime * moveSpeed;
+                
+                transform.Translate(new Vector3(moveDirection.x, moveDirection.y, 0) * Time.deltaTime * moveSpeed);
             }
             else
-            {
+            {   
                 animator.SetBool("Run", false);
-            }
-        }
-
-        if (isAttacking)
-        {
-            coolTime -= Time.deltaTime;
-            if (coolTime <= 0)
-            {
-                isAttacking = false;
-                coolTime = 0.2f;
             }
         }
     }
@@ -156,6 +169,9 @@ public class PlayerInput : MonoBehaviour
     void OnFixation(InputValue value)
     {
         if (!canPressed)
+            return;
+     
+        if(isTutorial)
             return;
         
         if (isStandingInit)
@@ -239,5 +255,13 @@ public class PlayerInput : MonoBehaviour
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
         }
+    }
+
+    public IEnumerator StoryMove()
+    {
+        SetDirection(EDirection.North);
+        yield return new WaitForSeconds(1f);
+        popup.SetActive(true);
+        yield return new WaitForSeconds(2f);
     }
 }
