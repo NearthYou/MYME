@@ -70,13 +70,13 @@ public class PlayerInput : MonoBehaviour
 
             if (isMoving)
             {
-                animator.enabled = true;
+                animator.SetBool("Run", true);
                 transform.position += new Vector3(moveDirection.x, moveDirection.y, 0) * Time.deltaTime * moveSpeed;
             }
-            // else
-            // {
-            //     animator.enabled = false;
-            // }
+            else
+            {
+                animator.SetBool("Run", false);
+            }
         }
 
         if (isAttacking)
@@ -113,18 +113,22 @@ public class PlayerInput : MonoBehaviour
             switch (direction)
             {
                 case EDirection.East:
+                    animator.SetTrigger("Attack");
                     attackObject = Instantiate(attackHorizontal, transform.position + Vector3.right,
                         Quaternion.identity, transform);
                     break;
                 case EDirection.West:
+                    animator.SetTrigger("Attack");
                     attackObject = Instantiate(attackHorizontal, transform.position + Vector3.left, Quaternion.identity,
                         transform);
                     break;
                 case EDirection.North:
+                    animator.SetTrigger("Attack");
                     attackObject = Instantiate(attackVertical, transform.position + Vector3.up, Quaternion.identity,
                         transform);
                     break;
                 case EDirection.South:
+                    animator.SetTrigger("Attack");
                     attackObject = Instantiate(attackVertical, transform.position + Vector3.down, Quaternion.identity,
                         transform);
                     break;
@@ -143,7 +147,6 @@ public class PlayerInput : MonoBehaviour
             
             canMove = !canMove;
             transform.position = initialPosition.position;
-            animator.enabled = false;
             OnMoveEvent?.Invoke(!canMove);
         }
     }
@@ -159,14 +162,12 @@ public class PlayerInput : MonoBehaviour
         {
             direction = EDirection.West;
             animator.SetTrigger("Side");
-            spriteRenderer.sprite = sprites[0];
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
         }
         else if (value == Vector2.right)
         {
             direction = EDirection.East;
-            spriteRenderer.sprite = sprites[0];
             animator.SetTrigger("Side");
             spriteRenderer.flipX = true;
             spriteRenderer.flipY = false;
@@ -174,7 +175,6 @@ public class PlayerInput : MonoBehaviour
         else if (value == Vector2.up)
         {
             direction = EDirection.North;
-            spriteRenderer.sprite = sprites[2];
             animator.SetTrigger("Behind");
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
@@ -182,7 +182,6 @@ public class PlayerInput : MonoBehaviour
         else if (value == Vector2.down)
         {
             direction = EDirection.South;
-            spriteRenderer.sprite = sprites[1];
             animator.SetTrigger("Front");
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
@@ -195,14 +194,12 @@ public class PlayerInput : MonoBehaviour
         {
             direction = EDirection.West;
             animator.SetTrigger("Side");
-            spriteRenderer.sprite = sprites[0];
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
         }
         else if (direction == EDirection.East)
         {
             direction = EDirection.East;
-            spriteRenderer.sprite = sprites[0];
             animator.SetTrigger("Side");
             spriteRenderer.flipX = true;
             spriteRenderer.flipY = false;
@@ -210,7 +207,6 @@ public class PlayerInput : MonoBehaviour
         else if (direction == EDirection.North)
         {
             direction = EDirection.North;
-            spriteRenderer.sprite = sprites[2];
             animator.SetTrigger("Behind");
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
@@ -218,16 +214,9 @@ public class PlayerInput : MonoBehaviour
         else if (direction == EDirection.South)
         {
             direction = EDirection.South;
-            spriteRenderer.sprite = sprites[1];
             animator.SetTrigger("Front");
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
         }
     }
-
-
-    // public void SetBug(IBugControl bugControl)
-    // {
-    //     bug = bugControl;
-    // }
 }
