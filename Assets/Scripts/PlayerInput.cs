@@ -10,20 +10,21 @@ using UnityEngine.SubsystemsImplementation;
 public class PlayerInput : MonoBehaviour
 {
     public static event Action<bool> OnMoveEvent;
-    
-    [Header("PlayerStat")]
-    [SerializeField] private float moveSpeed = 5f;
-    
-    [Header("Attack Prefab")]
-    [SerializeField] private GameObject attackHorizontal;
+
+    [Header("PlayerStat")] [SerializeField]
+    private float moveSpeed = 5f;
+
+    [Header("Attack Prefab")] [SerializeField]
+    private GameObject attackHorizontal;
+
     [SerializeField] private GameObject attackVertical;
-    
-    [Header("Binding Object")]
-    [SerializeField] private Transform initialPosition;
-    
-    
-    [Header("Sprites")]
-    [SerializeField] private Sprite[] sprites;
+
+    [Header("Binding Object")] [SerializeField]
+    private Transform initialPosition;
+
+
+    [Header("Sprites")] [SerializeField] private Sprite[] sprites;
+
     //private IBugControl bug;
     private GameObject attackObject;
     private SpriteRenderer spriteRenderer;
@@ -31,10 +32,10 @@ public class PlayerInput : MonoBehaviour
     private EDirection direction;
     private SuspicionAddTimer suspicionAddTimer;
     private Animator animator;
-    
-    
+
+
     private bool isMoving;
-    
+
     private bool isAttacking;
     private bool isStandingInit;
     private bool canMove;
@@ -51,7 +52,7 @@ public class PlayerInput : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         suspicionAddTimer = Utils.TryOrAddComponent<SuspicionAddTimer>(gameObject);
-        suspicionAddTimer.SetTimer(1,10);
+        suspicionAddTimer.SetTimer(1, 10);
         animator = GetComponent<Animator>();
         direction = EDirection.South;
     }
@@ -61,12 +62,12 @@ public class PlayerInput : MonoBehaviour
         if (canMove)
         {
             isMoving = moveDirection != Vector2.zero;
-            
-            if(GameManager.instance.isComeback && isMoving)
+
+            if (GameManager.instance.isComeback && isMoving)
                 suspicionAddTimer.StartTimer();
-            else if(GameManager.instance.isComeback && !isMoving)
+            else if (GameManager.instance.isComeback && !isMoving)
                 suspicionAddTimer.StopTimer();
-            
+
             if (isMoving)
             {
                 animator.enabled = true;
@@ -99,19 +100,7 @@ public class PlayerInput : MonoBehaviour
 
     void OnAttack()
     {
-        // if (bug != null)
-        // {
-        //     bug.DeleteBug();
-        //
-        //     if (bug.canDeleted)
-        //     {
-        //         bug = null;
-        //     }
-        // }
-        // else
-        // {
-            AttackDirection(direction);
-        //}
+        AttackDirection(direction);
     }
 
     private void AttackDirection(EDirection direction)
@@ -120,22 +109,27 @@ public class PlayerInput : MonoBehaviour
         {
             if (attackObject != null)
                 Destroy(attackObject);
-            
+
             switch (direction)
             {
                 case EDirection.East:
-                    attackObject = Instantiate(attackHorizontal, transform.position + Vector3.right, Quaternion.identity, transform);
+                    attackObject = Instantiate(attackHorizontal, transform.position + Vector3.right,
+                        Quaternion.identity, transform);
                     break;
                 case EDirection.West:
-                    attackObject=Instantiate(attackHorizontal, transform.position + Vector3.left, Quaternion.identity, transform);
+                    attackObject = Instantiate(attackHorizontal, transform.position + Vector3.left, Quaternion.identity,
+                        transform);
                     break;
                 case EDirection.North:
-                    attackObject= Instantiate(attackVertical, transform.position + Vector3.up, Quaternion.identity, transform);
+                    attackObject = Instantiate(attackVertical, transform.position + Vector3.up, Quaternion.identity,
+                        transform);
                     break;
                 case EDirection.South:
-                    attackObject= Instantiate(attackVertical, transform.position + Vector3.down, Quaternion.identity, transform);
+                    attackObject = Instantiate(attackVertical, transform.position + Vector3.down, Quaternion.identity,
+                        transform);
                     break;
             }
+
             isAttacking = true;
         }
     }
@@ -144,14 +138,16 @@ public class PlayerInput : MonoBehaviour
     {
         if (isStandingInit)
         {
+            if(canMove)
+                SetDirection(EDirection.South);
+            
             canMove = !canMove;
             transform.position = initialPosition.position;
-            SetDirection(EDirection.South);
             animator.enabled = false;
             OnMoveEvent?.Invoke(!canMove);
         }
     }
-    
+
     public void SetIsStandingInit(bool value)
     {
         isStandingInit = value;
@@ -192,7 +188,7 @@ public class PlayerInput : MonoBehaviour
             spriteRenderer.flipY = false;
         }
     }
-    
+
     private void SetDirection(EDirection direction)
     {
         if (direction == EDirection.West)
@@ -228,8 +224,7 @@ public class PlayerInput : MonoBehaviour
             spriteRenderer.flipY = false;
         }
     }
-    
-    
+
 
     // public void SetBug(IBugControl bugControl)
     // {
