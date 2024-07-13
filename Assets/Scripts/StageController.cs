@@ -37,6 +37,7 @@ public class StageController : MonoBehaviour
     private int remainMonCount;
     private int bugCount;
     private int randomBugCount;
+    private int bugProbability;
     
     private void Start()
     {
@@ -69,6 +70,7 @@ public class StageController : MonoBehaviour
         currentTime = Managers.Data.MonsterDelay[stageCount];
         speed = Managers.Data.MonsterSpeed[stageCount];
         monCount = Managers.Data.MonsterAmmount[stageCount];
+        bugProbability = Managers.Data.ErrorProbality[stageCount];
         remainMonCount = monCount;
         curMonCount = 0;
         StartCoroutine(WaitStageClear(monCount));
@@ -123,14 +125,24 @@ public class StageController : MonoBehaviour
     {
         yield return new WaitUntil(()=> curMonCount == count);
 
-        randomBugCount = Random.Range(3, 7);
-        bugSpawnManager.SpawnBug(randomBugCount);
+        if (Utils.GetRandom(bugProbability))
+        {
+            // Error UI
+            randomBugCount = Random.Range(3, 7);
+            bugSpawnManager.SpawnBug(randomBugCount);
+            yield return StartCoroutine(GameManager.instance.ComeBackTimer());
+        }
         
-        //yield return new WaitUntil(()=> bugCount == randomBugCount);
-        
-        yield return StartCoroutine(GameManager.instance.ComeBackTimer());
+        // Loading UI
+        yield return new WaitForSeconds(3f);
         
         stageCount++;
+
+        if (stageCount > 49)
+        {
+            GameManager.instance.GameClear(); 
+            yield break;
+        }
         NextStage();
     }
     
