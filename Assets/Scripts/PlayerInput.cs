@@ -143,6 +143,7 @@ public class PlayerInput : MonoBehaviour
         {
             if(canMove)
                 SetDirection(EDirection.South);
+            direction = EDirection.South;
             
             canMove = !canMove;
             transform.position = initialPosition.position;

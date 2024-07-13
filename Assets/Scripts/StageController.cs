@@ -40,7 +40,7 @@ public class StageController : MonoBehaviour
     
     private void Start()
     {
-        Monster.OnMonsterDie += CountDeadMonster;
+        Skeleton.OnMonsterDie += CountDeadMonster;
         BugHole.OnBugDie += CountDeleteBug;
         
         suspicionAddTimer = Utils.TryOrAddComponent<SuspicionAddTimer>(gameObject);
@@ -57,7 +57,7 @@ public class StageController : MonoBehaviour
 
     private void OnDestroy()
     {
-        Monster.OnMonsterDie -= CountDeadMonster;
+        Skeleton.OnMonsterDie -= CountDeadMonster;
         BugHole.OnBugDie -= CountDeleteBug;
     }
 
@@ -128,8 +128,6 @@ public class StageController : MonoBehaviour
         
         yield return StartCoroutine(GameManager.instance.ComeBackTimer());
         
-        
-        
         stageCount++;
         NextStage();
     }
@@ -143,8 +141,7 @@ public class StageController : MonoBehaviour
     {
         int randomIndex = Random.Range(0, monsterSpawnPoints.Length);
         var monster = Instantiate(monsterPrefab, monsterSpawnPoints[randomIndex].transform.position,
-            Quaternion.identity, monsterParent).GetComponent<Monster>();
-        monster.SetDirection((EDirection)randomIndex);
+            Quaternion.identity, monsterParent).GetComponent<Skeleton>();
         monster.SetSpeed(speed); 
     }
     

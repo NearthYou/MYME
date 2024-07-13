@@ -14,7 +14,7 @@ public class Attack : MonoBehaviour
     {
         if (other.CompareTag("Monster"))
         {
-            other.GetComponent<Monster>().Dead();
+            other.GetComponent<Skeleton>().Dead();
         }
         else if(other.TryGetComponent(out BugHole bugHole))
         {
