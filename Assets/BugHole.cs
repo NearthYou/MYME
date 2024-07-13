@@ -33,10 +33,6 @@ public class BugHole : MonoBehaviour, IBugControl
     {
         hp--;
         ChangeAnimation(hp);
-        // if (transform.localScale.x > 0.2f)
-        // {
-        //     transform.localScale = new Vector3(transform.localScale.x - 0.2f, transform.localScale.y - 0.2f);
-        // }
 
         if (hp <= 0)
         {
@@ -52,9 +48,9 @@ public class BugHole : MonoBehaviour, IBugControl
 
     private void ChangeAnimation(int count)
     {
-        if (count == 4)
+        if (count == 0)
             return;
         
-        animator.SetTrigger((count+1).ToString());
+        animator.SetTrigger(count.ToString());
     }
 }
