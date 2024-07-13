@@ -11,11 +11,13 @@ public class BugHole : MonoBehaviour, IBugControl
     private int hp;
     private GameObject arrow;
     private Animator animator;
+    private CircleCollider2D circleCollider2D;
 
     private void Start()
     {
         hp = 5;
         animator = GetComponent<Animator>();
+        circleCollider2D = GetComponent<CircleCollider2D>();
     }
 
     private void Update()
@@ -50,8 +52,10 @@ public class BugHole : MonoBehaviour, IBugControl
     
     private void ChangeAnimation(int count)
     {
-        if (count == 0)
+        if (count == -1)
             return;
+        
+        circleCollider2D.radius -= count * 0.01f;
         animator.SetTrigger((count+1).ToString());
     }
 }
