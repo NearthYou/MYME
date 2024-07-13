@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class GameManager : Singleton<GameManager>
@@ -15,6 +16,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject loadingScene;
     [SerializeField] private GameObject popupScene;
     [SerializeField] private List<Hand> hands = new List<Hand>();
+    
+    [SerializeField] private GameObject gameoverUI_HP;
+    [SerializeField] private GameObject gameoverUI_Gauge;
     private int suspicion = 0;
     public bool isComeback;
     private bool isTimerRunning;
@@ -48,7 +52,7 @@ public class GameManager : Singleton<GameManager>
         
         if(suspicion >= 100)
         {
-            GameOver();
+            GameOver_Gauge();
         }
     }
     
@@ -83,13 +87,38 @@ public class GameManager : Singleton<GameManager>
         player.playerUI.SetStateText("Loading...");
     }
     
-    public void GameOver()
+    public void GameOver_HP()
     {
         Debug.Log("Game Over");
         Time.timeScale = 0;
         player.playerInput.CanPressed = false;
-        // 키보드 입력 막기
+        
+        gameoverUI_HP.SetActive(true);
         // 결과창 UI 띄우기 (다시 하기, 게임 종료)
+    }
+    
+    public void GameOver_Gauge()
+    {
+        Debug.Log("Game Over");
+        Time.timeScale = 0;
+        player.playerInput.CanPressed = false;
+
+        gameoverUI_Gauge.SetActive(true);
+        // 결과창 UI 띄우기 (다시 하기, 게임 종료)
+    }
+    
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GameSetting()
@@ -189,4 +218,6 @@ public class GameManager : Singleton<GameManager>
 
         stageController.SkipTutorial();
     }
+    
+    
 }

@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
         else
         {
             playerUI.SetHearts(0);
-            GameManager.instance.GameOver();
+            GameManager.instance.GameOver_HP();
         }
         Invoke("OffDamage", 1f);
     }
