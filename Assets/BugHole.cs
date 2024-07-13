@@ -50,6 +50,8 @@ public class BugHole : MonoBehaviour, IBugControl
     
     private void ChangeAnimation(int count)
     {
+        if (count == 0)
+            return;
         animator.SetTrigger((count+1).ToString());
     }
 }

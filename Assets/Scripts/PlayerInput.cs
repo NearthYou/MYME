@@ -100,35 +100,34 @@ public class PlayerInput : MonoBehaviour
 
     void OnAttack()
     {
-        AttackDirection(direction);
+        StartCoroutine(AttackDirection(direction));
     }
 
-    private void AttackDirection(EDirection direction)
+    IEnumerator AttackDirection(EDirection direction)
     {
         if (!isAttacking)
         {
             if (attackObject != null)
                 Destroy(attackObject);
+            
+            animator.SetTrigger("Attack");
+            yield return new WaitForSeconds(0.1f);
 
             switch (direction)
             {
                 case EDirection.East:
-                    animator.SetTrigger("Attack");
                     attackObject = Instantiate(attackHorizontal, transform.position + Vector3.right,
                         Quaternion.identity, transform);
                     break;
                 case EDirection.West:
-                    animator.SetTrigger("Attack");
                     attackObject = Instantiate(attackHorizontal, transform.position + Vector3.left, Quaternion.identity,
                         transform);
                     break;
                 case EDirection.North:
-                    animator.SetTrigger("Attack");
                     attackObject = Instantiate(attackVertical, transform.position + Vector3.up, Quaternion.identity,
                         transform);
                     break;
                 case EDirection.South:
-                    animator.SetTrigger("Attack");
                     attackObject = Instantiate(attackVertical, transform.position + Vector3.down, Quaternion.identity,
                         transform);
                     break;
