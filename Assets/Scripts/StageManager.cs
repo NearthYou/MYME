@@ -10,21 +10,22 @@ using Random = UnityEngine.Random;
 public class StageManager : MonoBehaviour
 {
     [Header("테스트 용")]
-    [SerializeField] private int stageCount=1;
+    [SerializeField] private bool isStageStart = false;
     [Space(5)]
     
     [Header("UI")]
     [SerializeField] private StageText stageText;
     [SerializeField] private MonsterText monsterText;
-    
-    [SerializeField] private bool isStageStart = false;
+
+    [Header("Monster")]
     [SerializeField] private GameObject monsterPrefab;
     [SerializeField] private GameObject monsterSpawnPoint;
     [SerializeField] private Transform monsterParent;
     
-    private float[] spawnDelayTime;
-    private int[] monsterCount;
-    private float[] monsterSpeed;
+    [Header("Manager")]
+    [SerializeField] private BugSpawnManager bugSpawnManager;
+    
+    private int stageCount=1;
     
     private GameObject[] monsterSpawnPoints;
     
@@ -44,10 +45,6 @@ public class StageManager : MonoBehaviour
             monsterSpawnPoints[i] = monsterSpawnPoint.transform.GetChild(i).gameObject;
         }
         
-        spawnDelayTime = Managers.Data.MonsterDelay.Select(x=>float.Parse(x)).ToArray();
-        monsterCount = Managers.Data.MonsterAmmount.Select(x=>int.Parse(x)).ToArray();
-        monsterSpeed = Managers.Data.MonsterSpeed.Select(x=>float.Parse(x)).ToArray();
-        
         //NextStage();
     }
 
@@ -59,14 +56,14 @@ public class StageManager : MonoBehaviour
     public void NextStage()
     {
         Debug.Log("NextStage");
-        currentTime = spawnDelayTime[stageCount-1];
-        speed = monsterSpeed[stageCount-1];
-        monCount = monsterCount[stageCount-1];
+        currentTime = Managers.Data.MonsterDelay[stageCount];
+        speed = Managers.Data.MonsterSpeed[stageCount];
+        monCount = Managers.Data.MonsterAmmount[stageCount];
         remainMonCount = monCount;
         curMonCount = 0;
         StartCoroutine(WaitMonsterDead(monCount));
         
-        stageText.SetText(stageCount);
+        stageText.SetText(stageCount+1);
         monsterText.SetText(monCount);
         
         isStageStart = true;
@@ -89,13 +86,12 @@ public class StageManager : MonoBehaviour
             {
                 SpawnMonster();
                 monCount--;
-                currentTime = spawnDelayTime[stageCount];
+                currentTime = Managers.Data.MonsterDelay[stageCount];
             }
             else if (monCount <= 0)
             {
                 monCount = 0;
                 isStageStart = false;
-                stageCount++;
             }
         }
     }
@@ -104,7 +100,9 @@ public class StageManager : MonoBehaviour
     {
         yield return new WaitUntil(()=> curMonCount == count);
         
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(6f);
+        
+        stageCount++;
         NextStage();
     }
     

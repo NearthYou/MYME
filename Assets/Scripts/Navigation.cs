@@ -13,11 +13,18 @@ public class Navigation : MonoBehaviour
     private SpriteRenderer spr;
     private Color initColor;
 
+    private Camera cam;
     private void Awake()
     {
         spr = GetComponent<SpriteRenderer>();
         initColor = spr.color;
     }
+    
+    private void Start()
+    {
+        cam = Camera.main;
+    }
+    
 
     void Update ()
     {
@@ -40,13 +47,13 @@ public class Navigation : MonoBehaviour
     private void ArrowHint()
     {
  
-        Vector3 pos = Camera.main.WorldToViewportPoint(target.position);
+        Vector3 pos = cam.WorldToViewportPoint(target.position);
         
         // 타겟이 카메라 시야각 안으로 들어왔을 때
         if ((pos.x < 1.0f && pos.x > 0.0f) && (pos.y < 1.0f && pos.y > 0.0f))
         {
             spr.color = Color.clear;
-            transform.position = Camera.main.ViewportToWorldPoint(pos);
+            transform.position = cam.ViewportToWorldPoint(pos);
             return;
         }
         spr.color = initColor;
@@ -72,7 +79,7 @@ public class Navigation : MonoBehaviour
         }
         pos = new Vector3(pos.x + 1, pos.y + 1, pos.z + 1);
         pos /= 2.0f;
-        transform.position = Vector3.Lerp(transform.position , Camera.main.ViewportToWorldPoint(pos), Time.deltaTime * arrowSpeed) ;
+        transform.position = Vector3.Lerp(transform.position , cam.ViewportToWorldPoint(pos * 0.9f + Vector3.one * 0.05f), Time.deltaTime * arrowSpeed) ;
         LookAt2DLerp(target.position);
     }   
     
