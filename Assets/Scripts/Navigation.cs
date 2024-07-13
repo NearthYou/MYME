@@ -6,9 +6,8 @@ using UnityEngine;
 public class Navigation : MonoBehaviour
 {
 
-    public float arrowSpeed;
-    public Transform currentLocation;
-    public Transform target;
+    [SerializeField] float arrowSpeed;
+    [SerializeField] Transform target;
 
     private bool isSet;
     private SpriteRenderer spr;

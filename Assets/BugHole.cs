@@ -7,6 +7,7 @@ public class BugHole : MonoBehaviour, IBugControl
 {
     public bool canDeleted { get; set; }
     private int hp;
+    private GameObject arrow;
 
     private void Start()
     {
@@ -18,6 +19,7 @@ public class BugHole : MonoBehaviour, IBugControl
         if (hp <= 0)
         {
             canDeleted = true;
+            Destroy(arrow);
             Destroy(gameObject);
         }
     }
@@ -34,5 +36,11 @@ public class BugHole : MonoBehaviour, IBugControl
         {
             canDeleted = true;
         }
+    }
+    
+    public void SetArrow(GameObject _arrow)
+    {
+        arrow = _arrow;
+        arrow.GetComponent<Navigation>().SetTarget(transform);
     }
 }
