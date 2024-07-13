@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 35978979}
   - component: {fileID: 35978984}
   - component: {fileID: 35978985}
+  - component: {fileID: 35978986}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -227,6 +228,10 @@ MonoBehaviour:
   attackHorizontal: {fileID: 192146478222636530, guid: a8a5ff485089d6440bb8241b7e5c6100, type: 3}
   attackVertical: {fileID: 192146478222636530, guid: 6b702afde4586dd4f98c659720e55de6, type: 3}
   initialPosition: {fileID: 929517645}
+  sprites:
+  - {fileID: 961289653, guid: ed60c87e7c5adf349a7e7818e68ecc34, type: 3}
+  - {fileID: -1888857880, guid: ed60c87e7c5adf349a7e7818e68ecc34, type: 3}
+  - {fileID: -186921064, guid: ed60c87e7c5adf349a7e7818e68ecc34, type: 3}
 --- !u!114 &35978980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,6 +377,27 @@ PolygonCollider2D:
       - {x: 0.203125, y: -0.578125}
       - {x: 0.40625, y: -0.296875}
   m_UseDelaunayMesh: 0
+--- !u!95 &35978986
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35978976}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 431e1ae2b6bde4d48a496e324389b7e0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &111016753
 GameObject:
   m_ObjectHideFlags: 0

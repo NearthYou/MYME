@@ -20,12 +20,17 @@ public class PlayerInput : MonoBehaviour
     [Header("Binding Object")]
     [SerializeField] private Transform initialPosition;
     
+    
+    [Header("Sprites")]
+    [SerializeField] private Sprite[] sprites;
     //private IBugControl bug;
     private GameObject attackObject;
     private SpriteRenderer spriteRenderer;
     private Vector2 moveDirection;
     private EDirection direction;
     private SuspicionAddTimer suspicionAddTimer;
+    
+    
     
     private bool isMoving;
     
@@ -147,24 +152,28 @@ public class PlayerInput : MonoBehaviour
         if (value == Vector2.left)
         {
             direction = EDirection.West;
+            spriteRenderer.sprite = sprites[0];
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
         }
         else if (value == Vector2.right)
         {
             direction = EDirection.East;
+            spriteRenderer.sprite = sprites[0];
             spriteRenderer.flipX = true;
             spriteRenderer.flipY = false;
         }
         else if (value == Vector2.up)
         {
             direction = EDirection.North;
+            spriteRenderer.sprite = sprites[2];
             spriteRenderer.flipX = false;
-            spriteRenderer.flipY = true;
+            spriteRenderer.flipY = false;
         }
         else if (value == Vector2.down)
         {
             direction = EDirection.South;
+            spriteRenderer.sprite = sprites[1];
             spriteRenderer.flipX = false;
             spriteRenderer.flipY = false;
         }
