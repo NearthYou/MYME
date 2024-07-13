@@ -5,8 +5,25 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            if (instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+    
     [SerializeField] private Player player;
     [SerializeField] private StageController stageController;
     [SerializeField] private GameObject playerUI;
@@ -90,9 +107,12 @@ public class GameManager : Singleton<GameManager>
     public void GameOver_HP()
     {
         Debug.Log("Game Over");
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         player.playerInput.CanPressed = false;
-        
+        player.playerInput.CanMove = false;
+        player.transform.position = Vector3.zero;
+        stageController.DeleteAllMonster();
+        playerUI.SetActive(false);
         gameoverUI_HP.SetActive(true);
         // 결과창 UI 띄우기 (다시 하기, 게임 종료)
     }
@@ -100,9 +120,15 @@ public class GameManager : Singleton<GameManager>
     public void GameOver_Gauge()
     {
         Debug.Log("Game Over");
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         player.playerInput.CanPressed = false;
+        player.playerInput.CanMove = false;
+        player.transform.position = Vector3.zero;
 
+        playerUI.SetActive(false);
+        stageController.DeleteAllMonster();
+
+    
         gameoverUI_Gauge.SetActive(true);
         // 결과창 UI 띄우기 (다시 하기, 게임 종료)
     }

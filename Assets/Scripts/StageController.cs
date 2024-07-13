@@ -216,4 +216,10 @@ public class StageController : MonoBehaviour
         NextStage();
     }
     
+    public void DeleteAllMonster()
+    {
+        if(monsterList.Count>0)
+            monsterList.ForEach(Destroy);
+    }
+    
 }

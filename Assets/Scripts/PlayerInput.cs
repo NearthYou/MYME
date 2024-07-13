@@ -56,6 +56,7 @@ public class PlayerInput : MonoBehaviour
     public bool CanMove
     {
         get => canMove;
+        set => canMove = value;
     }
 
     private float hp = 3f;
