@@ -27,6 +27,7 @@ public class StageController : MonoBehaviour
     private int stageCount;
     
     private GameObject[] monsterSpawnPoints;
+    private SuspicionAddTimer suspicionAddTimer;
     
     private float speed;
     private float currentTime = 0f;
@@ -42,6 +43,8 @@ public class StageController : MonoBehaviour
         Monster.OnMonsterDie += CountDeadMonster;
         BugHole.OnBugDie += CountDeleteBug;
         
+        suspicionAddTimer = Utils.TryOrAddComponent<SuspicionAddTimer>(gameObject);
+        suspicionAddTimer.SetTimer(1,20);
         monsterSpawnPoints = new GameObject[monsterSpawnPoint.transform.childCount];
         for (int i = 0; i < monsterSpawnPoint.transform.childCount; i++)
         {
@@ -110,6 +113,9 @@ public class StageController : MonoBehaviour
                 isStageStart = false;
             }
         }
+        
+        if(IsBugCountRemain() && GameManager.instance.isComeback)
+            suspicionAddTimer.StartTimer();
     }
 
     private IEnumerator WaitStageClear(int count)
@@ -123,13 +129,15 @@ public class StageController : MonoBehaviour
         
         yield return StartCoroutine(GameManager.instance.ComeBackTimer());
         
+        
+        
         stageCount++;
         NextStage();
     }
     
     public bool IsBugCountRemain()
     {
-        return bugCount != 0;
+        return randomBugCount != 0;
     }
     
     private void SpawnMonster()

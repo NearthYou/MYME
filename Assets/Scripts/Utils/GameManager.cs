@@ -15,8 +15,6 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        
-        AddSuspicion(50);
     }
 
     private void Update()
