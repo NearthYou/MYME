@@ -38,6 +38,7 @@ public class StageController : MonoBehaviour
     private int bugCount;
     private int randomBugCount;
     private int bugProbability;
+    private int fairyProbability;
     
     private void Start()
     {
@@ -71,6 +72,7 @@ public class StageController : MonoBehaviour
         speed = Managers.Data.MonsterSpeed[stageCount];
         monCount = Managers.Data.MonsterAmmount[stageCount];
         bugProbability = Managers.Data.ErrorProbality[stageCount];
+        fairyProbability = Managers.Data.FairyProbability[stageCount];
         remainMonCount = monCount;
         curMonCount = 0;
         StartCoroutine(WaitStageClear(monCount));
@@ -153,7 +155,7 @@ public class StageController : MonoBehaviour
     
     private void SpawnMonster()
     {
-        GameObject monsterPrefabs = Utils.GetRandom(30f) ? monsterPrefab[1] : monsterPrefab[0];
+        GameObject monsterPrefabs = Utils.GetRandom(fairyProbability) ? monsterPrefab[1] : monsterPrefab[0];
         
         int randomIndex = Random.Range(0, monsterSpawnPoints.Length);
         var monster = Instantiate(monsterPrefabs, monsterSpawnPoints[randomIndex].transform.position,
