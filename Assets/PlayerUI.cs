@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,7 +15,14 @@ public class PlayerUI : MonoBehaviour
     
     [SerializeField] private PlayerHearts playerHearts;
     [SerializeField] private Suspicion suspicion;
-    
+    [SerializeField] private WarningSign warningSign;
+
+    private void Start()
+    {
+        stateText.gameObject.SetActive(false);
+        warningSign.gameObject.SetActive(false);
+    }
+
     public void SetStageText(int stage)
     {
         stageText.SetText(stage);
@@ -37,6 +45,24 @@ public class PlayerUI : MonoBehaviour
     
     public void SetStateText(string text)
     {
+        stateText.color = Color.black;
         stateText.text = text;
+        stateText.gameObject.SetActive(true);
+    }
+    
+    public void SetWarningSign(bool isWarning)
+    {
+        if (isWarning)
+        {
+            stateText.color = Color.red;
+            SetStateText("Warning!");
+        }
+
+        warningSign.gameObject.SetActive(isWarning);
+    }
+
+    public void SetWarningSignDelay(float delay = 1f)
+    {
+        warningSign.SetDelay(delay);
     }
 }

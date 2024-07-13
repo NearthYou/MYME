@@ -164,6 +164,7 @@ public class PlayerInput : MonoBehaviour
                 SetDirection(EDirection.South);
             direction = EDirection.South;
             animator.SetTrigger("Front");
+            animator.SetBool("Run", false);
             
             canMove = !canMove;
             transform.position = initialPosition.position;

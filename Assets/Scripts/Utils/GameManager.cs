@@ -59,7 +59,12 @@ public class GameManager : Singleton<GameManager>
     public IEnumerator ComeBackTimer()
     {
         isComeback = false;
-        yield return new WaitForSeconds(20f);
+        player.playerUI.SetWarningSign(true);
+        yield return new WaitForSeconds(10f);
+        player.playerUI.SetWarningSignDelay(0.5f);
+        yield return new WaitForSeconds(10f);
+        player.playerUI.SetWarningSign(false);
+        player.playerUI.SetWarningSignDelay();
         isComeback = true;
     }
 
@@ -69,6 +74,11 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSeconds(5f);
         AddSuspicion(-10);
         isTimerRunning = false;
+    }
+
+    public void LoadingText()
+    {
+        player.playerUI.SetStateText("Loading...");
     }
     
     public void GameOver()

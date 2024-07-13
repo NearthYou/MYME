@@ -47,7 +47,7 @@ public class StageController : MonoBehaviour
         BugHole.OnBugDie += CountDeleteBug;
         
         suspicionAddTimer = Utils.TryOrAddComponent<SuspicionAddTimer>(gameObject);
-        suspicionAddTimer.SetTimer(1,20);
+        suspicionAddTimer.SetTimer(1,10);
         monsterSpawnPoints = new GameObject[monsterSpawnPoint.transform.childCount];
         for (int i = 0; i < monsterSpawnPoint.transform.childCount; i++)
         {
@@ -85,6 +85,9 @@ public class StageController : MonoBehaviour
     
     private void CountDeadMonster()
     {
+        if (remainMonCount - curMonCount <= 0)
+            return;
+        
         curMonCount++;
         playerUI.SetMonsterText(remainMonCount - curMonCount);
     }
@@ -136,8 +139,9 @@ public class StageController : MonoBehaviour
         }
         
         // Loading UI
+        GameManager.instance.LoadingText();
         yield return new WaitForSeconds(3f);
-        
+
         stageCount++;
 
         if (stageCount > 49)
