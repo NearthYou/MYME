@@ -55,6 +55,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        SoundManager.instance.PlayBGM("MainBGM");
+        SetResolution();
+        
+    }
+    
+    public void SetResolution()
+    {
+        int setWidth = 1920; // 화면 너비
+        int setHeight = 1080; // 화면 높이
+
+        //해상도를 설정값에 따라 변경
+        //3번째 파라미터는 풀스크린 모드를 설정 > true : 풀스크린, false : 창모드
+        Screen.SetResolution(setWidth, setHeight, true);
+    }
+
     private bool SubStractCondition()
     {
         return player.playerInput.CanMove || stageController.IsBugCountRemain();
@@ -81,6 +98,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator ComeBackTimer()
     {
+        HandMoveOut();
         isComeback = false;
         player.playerUI.SetWarningSign(true);
         yield return new WaitForSeconds(10f);
@@ -88,6 +106,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(10f);
         player.playerUI.SetWarningSign(false);
         player.playerUI.SetWarningSignDelay();
+        HandMoveIn();
         isComeback = true;
     }
 
@@ -239,6 +258,16 @@ public class GameManager : MonoBehaviour
         player.playerUI.ActiveSuspicion(true);
 
         stageController.SkipTutorial();
+    }
+    
+    public void HandMoveIn()
+    {
+        hands.ForEach(hand => hand.MoveIn());
+    }
+    
+    public void HandMoveOut()
+    {
+        hands.ForEach(hand => hand.MoveOut());
     }
     
     

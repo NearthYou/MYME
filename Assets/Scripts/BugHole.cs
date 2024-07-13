@@ -27,6 +27,7 @@ public class BugHole : MonoBehaviour, IBugControl
             //animator.SetTrigger(1.ToString());
             OnBugDie?.Invoke();
             canDeleted = true;
+            SoundManager.instance.PlaySFX("ErrorDead");
             Destroy(arrow);
             Destroy(gameObject, 0.5f);
         }

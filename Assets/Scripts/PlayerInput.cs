@@ -118,7 +118,6 @@ public class PlayerInput : MonoBehaviour
         if (!canPressed)
             return;
         
-        
         Vector2 inputVector = value.Get<Vector2>();
 
         moveDirection = inputVector;
@@ -141,6 +140,7 @@ public class PlayerInput : MonoBehaviour
                 Destroy(attackObject);
             
             animator.SetTrigger("Attack");
+            SoundManager.instance.PlaySFX("Attack");
             yield return new WaitForSeconds(0.1f);
 
             switch (direction)

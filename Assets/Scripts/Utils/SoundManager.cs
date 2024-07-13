@@ -14,6 +14,8 @@ public class Sound
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager instance;
+    
     [SerializeField] Sound[] array_sfx = null;
     [SerializeField] Sound[] array_bgm = null;
 
@@ -41,6 +43,18 @@ public class SoundManager : MonoBehaviour
             dic_SFX.Add(sound.name, sound.clip);
         }
 
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            if (instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+        
         DontDestroyOnLoad(this.gameObject);
     }
 

@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
         
         if (isHit)
             return;
-        
+        SoundManager.instance.PlaySFX("PlayerHit");
         isHit = true;
         spriteRenderer.color = new Color(1, 1, 1, 0.4f);
         if (hp > 1)

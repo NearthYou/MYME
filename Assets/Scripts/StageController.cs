@@ -171,6 +171,7 @@ public class StageController : MonoBehaviour
             randomBugCount = Random.Range(3, 7);
             bugSpawnManager.SpawnBug(randomBugCount);
             yield return StartCoroutine(GameManager.instance.ComeBackTimer());
+            SoundManager.instance.PlaySFX("ErrorResolved");
         }
         
         // Loading UI

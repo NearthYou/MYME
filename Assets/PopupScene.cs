@@ -16,22 +16,39 @@ public class PopupScene : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         animator.enabled = true;
+        SoundManager.instance.PlaySFX("TutorialChat1");
         yield return new WaitForSeconds(3f);
         animator.SetTrigger("Next");
+        SoundManager.instance.PlaySFX("TutorialChat1");
+
         yield return new WaitForSeconds(3f);
         animator.SetTrigger("Next");
+        SoundManager.instance.PlaySFX("TutorialChat1");
+
         yield return new WaitForSeconds(3f);
         animator.SetTrigger("Next");
+        SoundManager.instance.PlaySFX("TutorialChat1");
+
         yield return new WaitForSeconds(3f);
         animator.SetTrigger("Next");
+        SoundManager.instance.PlaySFX("TutorialChat1");
+
         yield return new WaitForSeconds(3f);
         animator.SetTrigger("Next");
+        SoundManager.instance.PlaySFX("TutorialChat1");
+
         yield return new WaitForSeconds(3f);
         animator.SetTrigger("Next");
+        SoundManager.instance.PlaySFX("TutorialChat1");
+
         yield return new WaitForSeconds(3f);
         animator.SetTrigger("Next");
+        SoundManager.instance.PlaySFX("TutorialChat1");
+
         yield return new WaitForSeconds(3f);
         animator.SetTrigger("Next");
+        SoundManager.instance.PlaySFX("TutorialChat1");
+
         yield return new WaitForSeconds(3f);
     }
 }
