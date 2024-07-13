@@ -12,11 +12,6 @@ public class GameManager : Singleton<GameManager>
     public bool isComeback;
     private bool isTimerRunning;
 
-    private void Start()
-    {
-        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-    }
-
     private void Update()
     {
         if (suspicion > 0 && !isTimerRunning && isComeback)
