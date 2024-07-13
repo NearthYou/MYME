@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class StageManager : MonoBehaviour
+public class StageController : MonoBehaviour
 {
     [Header("테스트 용")]
     [SerializeField] private bool isStageStart = false;
@@ -44,7 +44,7 @@ public class StageManager : MonoBehaviour
             monsterSpawnPoints[i] = monsterSpawnPoint.transform.GetChild(i).gameObject;
         }
         
-        //NextStage();
+        NextStage();
     }
 
     private void OnDestroy()

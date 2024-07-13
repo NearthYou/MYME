@@ -8,7 +8,7 @@ public class Monster : MonoBehaviour
     public static event Action OnMonsterDie;
     
     private float moveSpeed;
-    private GameObject player;
+    private GameObject target;
     private EDirection direction;
     private SpriteRenderer spr;
 
@@ -20,15 +20,15 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        target = GameObject.FindGameObjectWithTag("InitPos");
     }
     
     void Update()
     {
-        if (player != null)
+        if (target != null)
         {
             transform.position =
-                Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                Vector2.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
         }
     }
 
