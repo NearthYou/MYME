@@ -58,6 +58,7 @@ public class StageManager : MonoBehaviour
 
     public void NextStage()
     {
+        Debug.Log("NextStage");
         currentTime = spawnDelayTime[stageCount-1];
         speed = monsterSpeed[stageCount-1];
         monCount = monsterCount[stageCount-1];
@@ -74,6 +75,7 @@ public class StageManager : MonoBehaviour
     private void CountUp()
     {
         curMonCount++;
+        Debug.Log(curMonCount);
         monsterText.SetText(remainMonCount - curMonCount);
     }
 
@@ -94,7 +96,6 @@ public class StageManager : MonoBehaviour
                 monCount = 0;
                 isStageStart = false;
                 stageCount++;
-                Invoke(nameof(NextStage), 3f);
             }
         }
     }

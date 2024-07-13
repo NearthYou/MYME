@@ -28,8 +28,8 @@ public class Player : MonoBehaviour
     {
         if (hp > 1)
         {
-            hp--;
-            playerHearts.SetHearts(hp);
+            //hp--;
+            //playerHearts.SetHearts(hp);
             //Debug.Log($"Player HP: {hp}");
         }
         else
