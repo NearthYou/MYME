@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private PlayerUI playerUI;
     [SerializeField] private PlayerCamera playerCamera;
-    private PlayerInput playerInput;
-
+    
+    public PlayerInput playerInput;
+    public PlayerUI playerUI;
+    
     private int hp = 3;
 
     private void Start()
@@ -35,8 +36,7 @@ public class Player : MonoBehaviour
         else
         {
             playerUI.SetHearts(0);
-            Debug.Log("Game Over");
-            Time.timeScale = 0;
+            GameManager.instance.GameOver();
         }
     }
 

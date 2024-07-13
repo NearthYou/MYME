@@ -24,7 +24,7 @@ public class StageController : MonoBehaviour
     [Header("Manager")]
     [SerializeField] private BugSpawnManager bugSpawnManager;
     
-    private int stageCount=1;
+    private int stageCount;
     
     private GameObject[] monsterSpawnPoints;
     
@@ -35,6 +35,7 @@ public class StageController : MonoBehaviour
     private int curMonCount;
     private int remainMonCount;
     private int bugCount;
+    private int randomBugCount;
     
     private void Start()
     {
@@ -47,7 +48,8 @@ public class StageController : MonoBehaviour
             monsterSpawnPoints[i] = monsterSpawnPoint.transform.GetChild(i).gameObject;
         }
         
-        //NextStage();
+        bugCount = 0;
+        NextStage();
     }
 
     private void OnDestroy()
@@ -64,7 +66,6 @@ public class StageController : MonoBehaviour
         monCount = Managers.Data.MonsterAmmount[stageCount];
         remainMonCount = monCount;
         curMonCount = 0;
-        bugCount = 0;
         StartCoroutine(WaitStageClear(monCount));
         
         playerUI.SetStageText(stageCount+1);
@@ -83,7 +84,12 @@ public class StageController : MonoBehaviour
     private void CountDeleteBug()
     {
         bugCount++;
-        Debug.Log(bugCount);
+        
+        if (bugCount == randomBugCount)
+        {
+            bugCount = 0;
+            randomBugCount = 0;
+        }
     }
 
     private void Update()
@@ -110,15 +116,20 @@ public class StageController : MonoBehaviour
     {
         yield return new WaitUntil(()=> curMonCount == count);
 
-        var randomBugCount = Random.Range(3, 7);
+        randomBugCount = Random.Range(3, 7);
         bugSpawnManager.SpawnBug(randomBugCount);
         
-        yield return new WaitUntil(()=> bugCount == randomBugCount);
+        //yield return new WaitUntil(()=> bugCount == randomBugCount);
         
-        yield return new WaitForSeconds(3f);
+        yield return StartCoroutine(GameManager.instance.ComeBackTimer());
         
         stageCount++;
         NextStage();
+    }
+    
+    public bool IsBugCountRemain()
+    {
+        return bugCount != 0;
     }
     
     private void SpawnMonster()

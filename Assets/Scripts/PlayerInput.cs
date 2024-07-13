@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -24,11 +25,18 @@ public class PlayerInput : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Vector2 moveDirection;
     private EDirection direction;
+    private SuspicionAddTimer suspicionAddTimer;
     
     private bool isMoving;
+    
     private bool isAttacking;
     private bool isStandingInit;
     private bool canMove;
+
+    public bool CanMove
+    {
+        get => canMove;
+    }
 
     private float hp = 3f;
     private float coolTime = 0.3f;
@@ -36,6 +44,8 @@ public class PlayerInput : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        suspicionAddTimer = Utils.TryOrAddComponent<SuspicionAddTimer>(gameObject);
+        suspicionAddTimer.SetTimer(1,10);
     }
 
     void Update()
@@ -43,6 +53,12 @@ public class PlayerInput : MonoBehaviour
         if (canMove)
         {
             isMoving = moveDirection != Vector2.zero;
+            
+            if(GameManager.instance.isComeback && isMoving)
+                suspicionAddTimer.StartTimer();
+            else if(GameManager.instance.isComeback && !isMoving)
+                suspicionAddTimer.StopTimer();
+            
             if (isMoving)
             {
                 transform.position += new Vector3(moveDirection.x, moveDirection.y, 0) * Time.deltaTime * moveSpeed;
