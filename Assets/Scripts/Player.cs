@@ -28,9 +28,9 @@ public class Player : MonoBehaviour
     {
         if (hp > 1)
         {
-            //hp--;
-            //playerHearts.SetHearts(hp);
-            //Debug.Log($"Player HP: {hp}");
+            hp--;
+            playerHearts.SetHearts(hp);
+            Debug.Log($"Player HP: {hp}");
         }
         else
         {
@@ -47,11 +47,14 @@ public class Player : MonoBehaviour
             other.GetComponent<Monster>().Dead();
             OnDamage();
         }
-        else if (other.CompareTag("Bug"))
+        
+        if (other.CompareTag("Bug"))
         {
-            playerInput.SetBug(other.GetComponent<IBugControl>());
+            OnDamage();
+            //playerInput.SetBug(other.GetComponent<IBugControl>());
         }
-        else if (other.CompareTag("InitPos"))
+        
+        if (other.CompareTag("InitPos"))
         {
             playerInput.SetIsStandingInit(true);
         }

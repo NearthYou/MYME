@@ -67,19 +67,19 @@ public class PlayerInput : MonoBehaviour
 
     void OnAttack()
     {
-        if (bug != null)
-        {
-            bug.DeleteBug();
-
-            if (bug.canDeleted)
-            {
-                bug = null;
-            }
-        }
-        else
-        {
+        // if (bug != null)
+        // {
+        //     bug.DeleteBug();
+        //
+        //     if (bug.canDeleted)
+        //     {
+        //         bug = null;
+        //     }
+        // }
+        // else
+        // {
             AttackDirection(direction);
-        }
+        //}
     }
 
     private void AttackDirection(EDirection direction)

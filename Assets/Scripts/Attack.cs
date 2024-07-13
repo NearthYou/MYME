@@ -16,5 +16,9 @@ public class Attack : MonoBehaviour
         {
             other.GetComponent<Monster>().Dead();
         }
+        else if(other.TryGetComponent(out BugHole bugHole))
+        {
+            bugHole.DeleteBug();
+        }
     }
 }
