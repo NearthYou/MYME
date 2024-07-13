@@ -75,5 +75,18 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("Game Over");
         Time.timeScale = 0;
+        
+        // 키보드 입력 막기
+        // 결과창 UI 띄우기 (다시 하기, 게임 종료)
+    }
+
+    public void GameStart()
+    {
+        
+    }
+
+    private void SettingPanel()
+    {
+        
     }
 }

@@ -86,11 +86,17 @@ public class Skeleton : MonoBehaviour
 
     public void Dead()
     {
-        //animator.SetTrigger("Death");
+        animator.SetTrigger("Death");
         target = null;
         circleCollider2D.enabled = false;
         OnMonsterDie?.Invoke();
         Destroy(gameObject,0.2f);
+    }
+
+    public void Suicide()
+    {
+        OnMonsterDie?.Invoke();
+        Destroy(gameObject);
     }
 
     public void SetSpeed(float speed)

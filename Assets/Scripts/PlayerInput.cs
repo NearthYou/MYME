@@ -40,6 +40,14 @@ public class PlayerInput : MonoBehaviour
     private bool isStandingInit;
     private bool canMove;
 
+    private bool canPressed;
+
+    public bool CanPressed
+    {
+        get => canPressed;
+        set => canPressed = value;
+    }
+
     public bool CanMove
     {
         get => canMove;
@@ -55,6 +63,7 @@ public class PlayerInput : MonoBehaviour
         suspicionAddTimer.SetTimer(1, 10);
         animator = GetComponent<Animator>();
         direction = EDirection.South;
+        canPressed = true;
     }
 
     void Update()
@@ -92,6 +101,10 @@ public class PlayerInput : MonoBehaviour
 
     void OnMove(InputValue value)
     {
+        if (!canPressed)
+            return;
+        
+        
         Vector2 inputVector = value.Get<Vector2>();
 
         moveDirection = inputVector;
@@ -100,6 +113,9 @@ public class PlayerInput : MonoBehaviour
 
     void OnAttack()
     {
+        if (!canPressed)
+            return;
+        
         StartCoroutine(AttackDirection(direction));
     }
 
@@ -139,6 +155,9 @@ public class PlayerInput : MonoBehaviour
 
     void OnFixation(InputValue value)
     {
+        if (!canPressed)
+            return;
+        
         if (isStandingInit)
         {
             if(canMove)

@@ -9,13 +9,16 @@ public class Player : MonoBehaviour
     
     public PlayerInput playerInput;
     public PlayerUI playerUI;
-    
-    private int hp = 3;
+    private SpriteRenderer spriteRenderer;
 
+    private int hp = 3;
+    private bool isHit;
+    
     private void Start()
     {
         PlayerInput.OnMoveEvent += ChangeCamera;
         playerInput = GetComponent<PlayerInput>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         hp = 3;
         playerUI.SetHearts(hp);
     }
@@ -27,6 +30,11 @@ public class Player : MonoBehaviour
 
     private void OnDamage()
     {
+        if (isHit)
+            return;
+        
+        isHit = true;
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
         if (hp > 1)
         {
             hp--;
@@ -38,13 +46,20 @@ public class Player : MonoBehaviour
             playerUI.SetHearts(0);
             GameManager.instance.GameOver();
         }
+        Invoke("OffDamage", 1f);
+    }
+    
+    private void OffDamage()
+    {
+        spriteRenderer.color = new Color(1, 1, 1, 1);
+        isHit = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Monster"))
         {
-            other.GetComponent<Skeleton>().Dead();
+            other.GetComponent<Skeleton>().Suicide();
             OnDamage();
         }
         
