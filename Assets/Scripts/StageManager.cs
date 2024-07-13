@@ -14,8 +14,7 @@ public class StageManager : MonoBehaviour
     [Space(5)]
     
     [Header("UI")]
-    [SerializeField] private StageText stageText;
-    [SerializeField] private MonsterText monsterText;
+    [SerializeField] private PlayerUI playerUI;
 
     [Header("Monster")]
     [SerializeField] private GameObject monsterPrefab;
@@ -63,8 +62,8 @@ public class StageManager : MonoBehaviour
         curMonCount = 0;
         StartCoroutine(WaitMonsterDead(monCount));
         
-        stageText.SetText(stageCount+1);
-        monsterText.SetText(monCount);
+        playerUI.SetStageText(stageCount+1);
+        playerUI.SetMonsterText(monCount);
         
         isStageStart = true;
     }
@@ -73,7 +72,7 @@ public class StageManager : MonoBehaviour
     {
         curMonCount++;
         Debug.Log(curMonCount);
-        monsterText.SetText(remainMonCount - curMonCount);
+        playerUI.SetMonsterText(remainMonCount - curMonCount);
     }
 
     private void Update()

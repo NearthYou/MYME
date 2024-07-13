@@ -224,10 +224,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  canMove: 0
-  initialPosition: {fileID: 929517645}
   attackHorizontal: {fileID: 192146478222636530, guid: a8a5ff485089d6440bb8241b7e5c6100, type: 3}
   attackVertical: {fileID: 192146478222636530, guid: 6b702afde4586dd4f98c659720e55de6, type: 3}
+  initialPosition: {fileID: 929517645}
 --- !u!114 &35978980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60851c2994f82044693914500d9eda62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHearts: {fileID: 1449778719}
+  playerUI: {fileID: 697427076}
   playerCamera: {fileID: 519420035}
 --- !u!50 &35978984
 Rigidbody2D:
@@ -1407,6 +1406,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd847741a2f7b00439266049bc62b7e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageText: {fileID: 1640770183}
+  monsterText: {fileID: 1539337204}
+  playerHearts: {fileID: 1449778719}
 --- !u!1 &802897006
 GameObject:
   m_ObjectHideFlags: 0
@@ -3096,12 +3098,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStageStart: 0
-  stageText: {fileID: 1640770183}
-  monsterText: {fileID: 1539337204}
+  playerUI: {fileID: 697427076}
   monsterPrefab: {fileID: 5789096601561805701, guid: 2edec8817e91cdc4ba36ce9993bd3d78, type: 3}
   monsterSpawnPoint: {fileID: 2111240575}
   monsterParent: {fileID: 229254320}
-  bugSpawnManager: {fileID: 0}
+  bugSpawnManager: {fileID: 111016754}
 --- !u!1 &2111240575
 GameObject:
   m_ObjectHideFlags: 0

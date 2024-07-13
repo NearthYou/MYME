@@ -9,14 +9,18 @@ public class PlayerInput : MonoBehaviour
 {
     public static event Action<bool> OnMoveEvent;
     
+    [Header("PlayerStat")]
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private bool canMove;
-    [SerializeField] private Transform initialPosition;
     
     [Header("Attack Prefab")]
     [SerializeField] private GameObject attackHorizontal;
     [SerializeField] private GameObject attackVertical;
     
+    [Header("Binding Object")]
+    [SerializeField] private Transform initialPosition;
+    
+    //private IBugControl bug;
+    private GameObject attackObject;
     private SpriteRenderer spriteRenderer;
     private Vector2 moveDirection;
     private EDirection direction;
@@ -24,10 +28,9 @@ public class PlayerInput : MonoBehaviour
     private bool isMoving;
     private bool isAttacking;
     private bool isStandingInit;
+    private bool canMove;
 
     private float hp = 3f;
-    private GameObject attackObject;
-    private IBugControl bug;
     private float coolTime = 0.3f;
 
     void Start()
@@ -151,8 +154,8 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    public void SetBug(IBugControl bugControl)
-    {
-        bug = bugControl;
-    }
+    // public void SetBug(IBugControl bugControl)
+    // {
+    //     bug = bugControl;
+    // }
 }

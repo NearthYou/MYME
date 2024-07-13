@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private PlayerHearts playerHearts;
+    [SerializeField] private PlayerUI playerUI;
     [SerializeField] private PlayerCamera playerCamera;
     private PlayerInput playerInput;
 
@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
         PlayerInput.OnMoveEvent += ChangeCamera;
         playerInput = GetComponent<PlayerInput>();
         hp = 3;
-        playerHearts.SetHearts(hp);
+        playerUI.SetHearts(hp);
     }
 
     private void OnDestroy()
@@ -29,12 +29,12 @@ public class Player : MonoBehaviour
         if (hp > 1)
         {
             hp--;
-            playerHearts.SetHearts(hp);
+            playerUI.SetHearts(hp);
             Debug.Log($"Player HP: {hp}");
         }
         else
         {
-            playerHearts.SetHearts(0);
+            playerUI.SetHearts(0);
             Debug.Log("Game Over");
             Time.timeScale = 0;
         }
