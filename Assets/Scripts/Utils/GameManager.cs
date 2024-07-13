@@ -171,11 +171,7 @@ public class GameManager : MonoBehaviour
 
     public void GameClear()
     {
-        Debug.Log("Game Over");
-        Time.timeScale = 0;
-        player.playerInput.CanPressed = false;
-        Debug.Log("Game Clear");
-        // 결과창 UI 띄우기 (다시 하기, 게임 종료)
+        GameOver_Gauge();
     }
 
     private void SettingPanel()
