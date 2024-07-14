@@ -182,7 +182,7 @@ public class StageController : MonoBehaviour
 
         stageCount++;
 
-        if (stageCount > 49)
+        if (stageCount > 29)
         {
             GameManager.instance.GameClear(); 
             yield break;

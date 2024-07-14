@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private GameObject gameoverUI_HP;
     [SerializeField] private GameObject gameoverUI_Gauge;
+    [SerializeField] private GameObject gameClearUI;
     private int suspicion = 0;
     public bool isComeback;
     private bool isTimerRunning;
@@ -200,7 +201,17 @@ public class GameManager : MonoBehaviour
 
     public void GameClear()
     {
-        GameOver_Gauge();
+        if (isGameOver)
+            return;
+        
+        Debug.Log("Game Clear");
+        isGameOver = true;
+        player.playerInput.CanPressed = false;
+        player.playerInput.CanMove = false;
+        player.transform.position = Vector3.zero;
+        stageController.DeleteAllMonster();
+        playerUI.SetActive(false);
+        gameClearUI.SetActive(true);
     }
 
     private void SettingPanel()
