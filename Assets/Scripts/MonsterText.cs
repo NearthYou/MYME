@@ -9,4 +9,9 @@ public class MonsterText : UIText
     {
         text.text = $"남은 몬스터 수 : {value}";
     }
+    
+    public void SetBugText(int value)
+    {
+        text.text = $"남은 오류 수 : {value}";
+    }
 }

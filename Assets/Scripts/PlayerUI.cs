@@ -35,6 +35,11 @@ public class PlayerUI : MonoBehaviour
         monsterText.SetText(monster);
     }
     
+    public void SetBugText(int bug)
+    {
+        monsterText.SetBugText(bug);
+    }
+    
     public void SetHearts(int hp)
     {
         playerHearts.SetHearts(hp);
