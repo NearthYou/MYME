@@ -1224,6 +1224,7 @@ MonoBehaviour:
   - {fileID: 1806773425}
   gameoverUI_HP: {fileID: 1684747469}
   gameoverUI_Gauge: {fileID: 754829588}
+  gameClearUI: {fileID: 0}
   isComeback: 1
 --- !u!1 &284374138
 GameObject:
@@ -4932,7 +4933,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1294678977
 RectTransform:
   m_ObjectHideFlags: 0
