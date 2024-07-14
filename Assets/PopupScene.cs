@@ -14,6 +14,8 @@ public class PopupScene : MonoBehaviour
 
     public IEnumerator StoryProduction()
     {
+        SoundManager.instance.PlaySFX("TutorialChat1");
+
         yield return new WaitForSeconds(3f);
         animator.enabled = true;
         SoundManager.instance.PlaySFX("TutorialChat1");
@@ -45,10 +47,14 @@ public class PopupScene : MonoBehaviour
         animator.SetTrigger("Next");
         SoundManager.instance.PlaySFX("TutorialChat1");
 
+       yield return new WaitForSeconds(3f);
+        animator.SetTrigger("Next");
+        SoundManager.instance.PlaySFX("TutorialChat1"); 
+
         yield return new WaitForSeconds(3f);
         animator.SetTrigger("Next");
         SoundManager.instance.PlaySFX("TutorialChat1");
-
+        
         yield return new WaitForSeconds(3f);
     }
 }

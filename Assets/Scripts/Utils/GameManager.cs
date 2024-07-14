@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     private int suspicion = 0;
     public bool isComeback;
     private bool isTimerRunning;
+    private bool isGameOver;
 
     private void Update()
     {
@@ -125,19 +126,28 @@ public class GameManager : MonoBehaviour
     
     public void GameOver_HP()
     {
+        if (isGameOver)
+            return;
+        
         Debug.Log("Game Over");
         //Time.timeScale = 0;
+        isGameOver = true;
         player.playerInput.CanPressed = false;
         player.playerInput.CanMove = false;
         player.transform.position = Vector3.zero;
         stageController.DeleteAllMonster();
         playerUI.SetActive(false);
         gameoverUI_HP.SetActive(true);
+        
         // 결과창 UI 띄우기 (다시 하기, 게임 종료)
     }
     
     public void GameOver_Gauge()
     {
+        if (isGameOver)
+            return;
+        
+        isGameOver = true;
         Debug.Log("Game Over");
         //Time.timeScale = 0;
         player.playerInput.CanPressed = false;
@@ -173,7 +183,7 @@ public class GameManager : MonoBehaviour
         player.playerInput.CanPressed = true;
         player.playerInput.isTutorial = true;
         player.isTutorial = true;
-        Invoke(nameof(TutorialStart), 3f);
+        Invoke(nameof(TutorialStart), 8f);
     }
     
     public void UIOn()
