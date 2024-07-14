@@ -122,7 +122,7 @@ public class StageController : MonoBehaviour
     private void CountDeleteBug()
     {
         bugCount++;
-        playerUI.SetBugText(randomBugCount - bugCount);
+        //playerUI.SetBugText(randomBugCount - bugCount);
 
         if (bugCount >= randomBugCount)
         {
@@ -171,7 +171,7 @@ public class StageController : MonoBehaviour
             // Error UI
             randomBugCount = Random.Range(3, 7);
             bugSpawnManager.SpawnBug(randomBugCount);
-            playerUI.SetBugText(randomBugCount);
+            //playerUI.SetBugText(randomBugCount);
             yield return StartCoroutine(GameManager.instance.ComeBackTimer());
             SoundManager.instance.PlaySFX("ErrorResolved");
         }
