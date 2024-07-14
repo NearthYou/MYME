@@ -280,5 +280,16 @@ public class GameManager : MonoBehaviour
         hands.ForEach(hand => hand.MoveOut());
     }
     
+    public void ActiveLoadingScene()
+    {
+        playerUI.gameObject.SetActive(false);
+        loadingScene.SetActive(true);
+        Invoke(nameof(OffLoadingScene), 3f);
+    }
     
+    private void OffLoadingScene()
+    {
+        loadingScene.SetActive(false);
+        playerUI.gameObject.SetActive(true);
+    }
 }

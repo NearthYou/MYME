@@ -177,7 +177,7 @@ public class StageController : MonoBehaviour
         }
         
         // Loading UI
-        GameManager.instance.LoadingText();
+        GameManager.instance.ActiveLoadingScene();
         yield return new WaitForSeconds(3f);
 
         stageCount++;

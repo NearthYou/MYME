@@ -24,7 +24,7 @@ public class TurnOff : MonoBehaviour
     {
         image.SetActive(true);
         animator.SetTrigger("Switch");
-        Invoke(nameof(OnUI), 2f);
+        Invoke(nameof(OnUI), 4f);
     }
     
     private void OnUI()
