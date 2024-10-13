@@ -44,10 +44,6 @@ public class StageController : MonoBehaviour
     
     private void Start()
     {
-        Skeleton.OnMonsterDie += CountDeadMonster;
-        Fairy.OnMonsterDie += CountDeadMonster;
-        BugHole.OnBugDie += CountDeleteBug;
-        
         monsterList = new List<GameObject>();
         suspicionAddTimer = Utils.TryOrAddComponent<SuspicionAddTimer>(gameObject);
         suspicionAddTimer.SetTimer(1,10);
@@ -61,15 +57,20 @@ public class StageController : MonoBehaviour
         //NextStage();
     }
 
-    private void OnDestroy()
+    public void StopTimer()
     {
-        Skeleton.OnMonsterDie -= CountDeadMonster;
-        Fairy.OnMonsterDie -= CountDeadMonster;
-        BugHole.OnBugDie -= CountDeleteBug;
+        suspicionAddTimer.StopTimer();
     }
 
     public void NextStage()
     {
+        if(stageCount >= 10)
+        {
+            GameManager.instance.GameClear();
+            suspicionAddTimer.StopTimer();
+            return;
+        }
+        
         if (monsterList.Count > 0)
         {
             monsterList.Clear();
@@ -85,7 +86,7 @@ public class StageController : MonoBehaviour
         curMonCount = 0;
         StartCoroutine(WaitStageClear(monCount));
         
-        playerUI.SetStageText(stageCount+1);
+        playerUI.SetStageText((stageCount+1).ToString());
         playerUI.SetMonsterText(monCount);
         
         isStageStart = true;
@@ -101,16 +102,17 @@ public class StageController : MonoBehaviour
         fairyProbability = Managers.Data.FairyProbability[stageCount];
         remainMonCount = monCount;
         curMonCount = 0;
-        StartCoroutine(WaitStageClear(monCount));
 
-        playerUI.SetStageText(stageCount+1);
+        playerUI.SetStageText("???");
         playerUI.SetMonsterText(monCount);
+        
+        StartCoroutine(WaitStageClear(monCount));
         
         isTutorial = true;
         isStageStart = true;
     }
     
-    private void CountDeadMonster()
+    public void CountDeadMonster()
     {
         if (remainMonCount - curMonCount <= 0)
             return;
@@ -119,16 +121,15 @@ public class StageController : MonoBehaviour
         playerUI.SetMonsterText(remainMonCount - curMonCount);
     }
     
-    private void CountDeleteBug()
+    public void CountDeleteBug()
     {
-        bugCount++;
-        //playerUI.SetBugText(randomBugCount - bugCount);
-
         if (bugCount >= randomBugCount)
         {
             bugCount = 0;
             randomBugCount = 0;
+            return;
         }
+        bugCount++;
     }
 
     private void Update()
@@ -147,13 +148,13 @@ public class StageController : MonoBehaviour
             {
                 monCount = 0;
                 isStageStart = false;
-
-
             }
         }
-        
-        if(IsBugCountRemain() && GameManager.instance.isComeback)
+
+        if (IsBugCountRemain() && GameManager.instance.isComeback)
+        {
             suspicionAddTimer.StartTimer();
+        }
     }
 
     private IEnumerator WaitStageClear(int count)
@@ -179,20 +180,14 @@ public class StageController : MonoBehaviour
         // Loading UI
         GameManager.instance.LoadingText();
         yield return new WaitForSeconds(3f);
-
+        
         stageCount++;
-
-        if (stageCount > 29)
-        {
-            GameManager.instance.GameClear(); 
-            yield break;
-        }
         NextStage();
     }
     
     public bool IsBugCountRemain()
     {
-        return randomBugCount != 0;
+        return bugCount != 0;
     }
     
     private void SpawnMonster()
@@ -209,8 +204,9 @@ public class StageController : MonoBehaviour
 
     public void SkipTutorial()
     {
+        StopCoroutine(nameof(WaitStageClear));
+        isTutorial = false;
         isStageStart = false;
-        StopAllCoroutines();
         
         if(monsterList.Count>0)
             monsterList.ForEach(Destroy);
@@ -222,7 +218,10 @@ public class StageController : MonoBehaviour
     public void DeleteAllMonster()
     {
         if(monsterList.Count>0)
+        {
             monsterList.ForEach(Destroy);
+            monsterList.Clear();
+        }
     }
     
 }

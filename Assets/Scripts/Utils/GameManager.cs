@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameoverUI_HP;
     [SerializeField] private GameObject gameoverUI_Gauge;
     [SerializeField] private GameObject gameClearUI;
+    [SerializeField] private GameObject skipButton;
+    [SerializeField] private bool isRetry;
     private int suspicion = 0;
     public bool isComeback;
     private bool isTimerRunning;
@@ -46,14 +48,19 @@ public class GameManager : MonoBehaviour
     {
         if (suspicion > 0 && !isTimerRunning && isComeback)
         {
-            if (!SubStractCondition())
+            if (SubStractCondition())
             {
                 StartCoroutine(SubstractTimer());
             }
         }
-        else if (suspicion <= 0 || SubStractCondition() || !isComeback)
+        else if (suspicion <= 0 || !SubStractCondition() || !isComeback)
         {
             StopCoroutine(SubstractTimer());
+        }
+        
+        if (Input.GetKey(KeyCode.F12))
+        {
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -62,6 +69,10 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.PlayBGM("MainBGM");
         SetResolution();
         
+        if (isRetry)
+        {
+            StartCoroutine(RetryGameStart());
+        }
     }
     
     public void SetResolution()
@@ -76,7 +87,7 @@ public class GameManager : MonoBehaviour
 
     private bool SubStractCondition()
     {
-        return player.playerInput.CanMove || stageController.IsBugCountRemain();
+        return player.playerInput.CanMove && !stageController.IsBugCountRemain();
     }
 
     public void AddSuspicion(int value)
@@ -131,15 +142,18 @@ public class GameManager : MonoBehaviour
             return;
         
         Debug.Log("Game Over");
+        stageController.DeleteAllMonster();
+        stageController.StopTimer();
         //Time.timeScale = 0;
         isGameOver = true;
         player.playerInput.CanPressed = false;
         player.playerInput.CanMove = false;
         player.transform.position = Vector3.zero;
-        stageController.DeleteAllMonster();
         playerUI.SetActive(false);
         gameoverUI_HP.SetActive(true);
-        
+        player.playerUI.ActiveSuspicion(false);
+        player.GetComponent<BoxCollider2D>().enabled = false;
+
         // 결과창 UI 띄우기 (다시 하기, 게임 종료)
     }
     
@@ -148,6 +162,8 @@ public class GameManager : MonoBehaviour
         if (isGameOver)
             return;
         
+        stageController.DeleteAllMonster();
+        stageController.StopTimer();
         isGameOver = true;
         Debug.Log("Game Over");
         //Time.timeScale = 0;
@@ -156,9 +172,8 @@ public class GameManager : MonoBehaviour
         player.transform.position = Vector3.zero;
 
         playerUI.SetActive(false);
-        stageController.DeleteAllMonster();
-
-    
+        
+        player.GetComponent<BoxCollider2D>().enabled = false;
         gameoverUI_Gauge.SetActive(true);
         // 결과창 UI 띄우기 (다시 하기, 게임 종료)
     }
@@ -174,7 +189,7 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(1);
     }
 
     public void GameSetting()
@@ -184,18 +199,34 @@ public class GameManager : MonoBehaviour
         player.playerInput.CanPressed = true;
         player.playerInput.isTutorial = true;
         player.isTutorial = true;
-        Invoke(nameof(TutorialStart), 8f);
+        
+        //TODO: 튜토리얼 시작 타이밍 수정되어야 함
+        //Stage 시작 몬스터 처치 수 수정 필요.
+        StartCoroutine(TutorialStart());
+    }
+
+    private IEnumerator RetryGameStart()
+    {
+        UIOn();
+        player.playerUI.SetSkipButton(false);
+        player.playerUI.SetManual(false);
+        player.gameObject.SetActive(true);
+        player.playerInput.CanPressed = true;
+        yield return new WaitForSeconds(3f);
+        HandMoveIn();
+        SkipTutorial();
     }
     
     public void UIOn()
     {
         playerUI.SetActive(true);
         player.playerUI.SetSkipButton(true);
-
     }
 
-    public void TutorialStart()
+    public IEnumerator TutorialStart()
     {
+        yield return new WaitForSeconds(8f);
+        skipButton.SetActive(false);
         stageController.TutorialStart();
     }
 
@@ -210,8 +241,12 @@ public class GameManager : MonoBehaviour
         player.playerInput.CanMove = false;
         player.transform.position = Vector3.zero;
         stageController.DeleteAllMonster();
+        stageController.StopTimer();
         playerUI.SetActive(false);
         gameClearUI.SetActive(true);
+        player.playerUI.ActiveSuspicion(false);
+        player.GetComponent<BoxCollider2D>().enabled = false;
+
     }
 
     private void SettingPanel()
@@ -271,14 +306,13 @@ public class GameManager : MonoBehaviour
 
     public void SkipTutorial()
     {
+        stageController.SkipTutorial();
         player.playerInput.CanPressed = true;
         player.playerInput.isTutorial = false;
         player.isTutorial = false;
-        stageController.isTutorial = false;
         player.playerUI.SetManual(false);
         player.playerUI.ActiveSuspicion(true);
-
-        stageController.SkipTutorial();
+        StopAllCoroutines();
     }
     
     public void HandMoveIn()

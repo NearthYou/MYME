@@ -6,6 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerCamera playerCamera;
+    [SerializeField] private GameObject healEffect;
     
     public PlayerInput playerInput;
     public PlayerUI playerUI;
@@ -55,6 +56,7 @@ public class Player : MonoBehaviour
 
     private void OnHeal()
     {
+        StartCoroutine(HealVFX());
         hp++;
         
         if (hp > 3)
@@ -106,5 +108,12 @@ public class Player : MonoBehaviour
     private void ChangeCamera(bool isDefense)
     {
         playerCamera.SetCamera(isDefense);
+    }
+
+    public IEnumerator HealVFX()
+    {
+        healEffect.SetActive(true);
+        yield return new WaitForSeconds(0.6f);
+        healEffect.SetActive(false);
     }
 }

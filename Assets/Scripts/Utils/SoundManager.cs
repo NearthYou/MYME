@@ -20,7 +20,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] Sound[] array_bgm = null;
 
     [SerializeField] AudioSource bgmPlayer = null;
-    [SerializeField] AudioSource sfxPlayer = null;
+    [SerializeField] AudioSource[] sfxPlayerArray = null;
 
     Dictionary<string, AudioClip> dic_BGM;
     Dictionary<string, AudioClip> dic_SFX;
@@ -70,10 +70,17 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        sfxPlayer.clip = dic_SFX[sfxName];
-        sfxPlayer.volume = sfxVolume;
+        foreach (var sfxPlayer in sfxPlayerArray)
+        {
+            if (!sfxPlayer.isPlaying)
+            {
+                sfxPlayer.clip = dic_SFX[sfxName];
+                sfxPlayer.volume = sfxVolume;
 
-        sfxPlayer.Play();
+                sfxPlayer.Play();
+                return;
+            }
+        }
     }
 
     /// <summary>
@@ -107,7 +114,13 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public void StopSFX()
     {
-        sfxPlayer.Stop();
+        foreach (var sfxPlayer in sfxPlayerArray)
+        {
+            if (sfxPlayer.isPlaying)
+            {
+                sfxPlayer.Stop();
+            }
+        }
     }
 
     /// <summary>
@@ -129,7 +142,13 @@ public class SoundManager : MonoBehaviour
     {
         sfxVolume = Mathf.Clamp01(volume * 0.5f);
 
-        sfxPlayer.volume = sfxVolume;
+        foreach (var sfxPlayer in sfxPlayerArray)
+        {
+            if (sfxPlayer.isPlaying)
+            {
+                sfxPlayer.volume = sfxVolume;
+            }
+        }
     }
 
     /// <summary>
@@ -141,10 +160,5 @@ public class SoundManager : MonoBehaviour
     {
         if (dic_SFX.ContainsKey(sfxName)) return true;
         else return false;
-    }
-
-    public bool CheckSFXPlayNow()
-    {
-        return sfxPlayer.isPlaying;
     }
 }

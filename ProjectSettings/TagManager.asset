@@ -8,6 +8,7 @@ TagManager:
   - Bug
   - InitPos
   - Fairy
+  - StageController
   layers:
   - Default
   - TransparentFX

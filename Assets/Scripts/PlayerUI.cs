@@ -25,7 +25,7 @@ public class PlayerUI : MonoBehaviour
         warningSign.gameObject.SetActive(false);
     }
 
-    public void SetStageText(int stage)
+    public void SetStageText(string stage)
     {
         stageText.SetText(stage);
     }

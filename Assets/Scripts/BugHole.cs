@@ -5,19 +5,19 @@ using UnityEngine;
 
 public class BugHole : MonoBehaviour, IBugControl
 {
-    public static event Action OnBugDie;
-
     public bool canDeleted { get; set; }
     private int hp;
     private GameObject arrow;
     private Animator animator;
     private CircleCollider2D circleCollider2D;
+    private StageController stageController;
 
     private void Start()
     {
         hp = 5;
         animator = GetComponent<Animator>();
         circleCollider2D = GetComponent<CircleCollider2D>();
+        stageController = GameObject.FindGameObjectWithTag("StageController").GetComponent<StageController>();
     }
 
     private void Update()
@@ -25,7 +25,7 @@ public class BugHole : MonoBehaviour, IBugControl
         if (hp <= 0)
         {
             //animator.SetTrigger(1.ToString());
-            OnBugDie?.Invoke();
+            stageController.CountDeleteBug();
             canDeleted = true;
             SoundManager.instance.PlaySFX("ErrorDead");
             Destroy(arrow);

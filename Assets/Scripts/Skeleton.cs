@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Skeleton : MonoBehaviour, ISpeed
 {
-    public static event Action OnMonsterDie;
-
     private float moveSpeed;
     private GameObject target;
     private EDirection direction;
@@ -15,6 +13,7 @@ public class Skeleton : MonoBehaviour, ISpeed
     private float angle;
     private bool isRunning;
     private CircleCollider2D circleCollider2D;
+    private StageController stageController;
 
     private void Awake()
     {
@@ -27,6 +26,7 @@ public class Skeleton : MonoBehaviour, ISpeed
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player");
+        stageController = GameObject.FindGameObjectWithTag("StageController").GetComponent<StageController>();
         angle = Quaternion.FromToRotation(Vector3.up, transform.position - target.transform.position).eulerAngles.z;
     }
 
@@ -89,13 +89,13 @@ public class Skeleton : MonoBehaviour, ISpeed
         animator.SetTrigger("Death");
         target = null;
         circleCollider2D.enabled = false;
-        OnMonsterDie?.Invoke();
+        stageController.CountDeadMonster();
         Destroy(gameObject,0.2f);
     }
 
     public void Suicide()
     {
-        OnMonsterDie?.Invoke();
+        stageController.CountDeadMonster();
         Destroy(gameObject);
     }
 
